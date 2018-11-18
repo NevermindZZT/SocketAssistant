@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SocketAssistant</string>
+    <string name="send_button_text">Send</string>
+    <string name="socket_local_ip">Local IP</string>
+    <string name="socket_local_port">Local port</string>
+    <string name="socket_remote_ip">Remote IP</string>
+    <string name="socket_remote_port">Remote port</string>
+    <string name="socket_confirm_button">Confirm</string>
+    <string name="extra_disconnect">Disconnect</string>
+</resources>
