@@ -7,6 +7,6 @@
     <color name="textColorItemName">#1a1a1a</color>
     <color name="textColorItemHint">#999999</color>
     <color name="textColorAnniHint">#333333</color>
-    <color name="textColorStress">#2222AA</color>
+    <color name="textColorStress">#2222aa</color>
     <color name="whiteBackground">#fcfcfc</color>
 </resources>

@@ -7,4 +7,15 @@
     <string name="socket_remote_port">Remote port</string>
     <string name="socket_confirm_button">Confirm</string>
     <string name="extra_disconnect">Disconnect</string>
+    <string name="esp_title">ESP Touch</string>
+    <string name="esp_ssid">SSID:</string>
+    <string name="esp_bssid">BSSID:</string>
+    <string name="esp_password">Password:</string>
+    <string name="esp_device_count">Device count:</string>
+    <string name="esp_broadcast">Broadcast</string>
+    <string name="esp_multicast">Multicast</string>
+    <string name="esp_confirm">Confirm</string>
+    <string name="esp_5g_not_support">5G Wifi is not supported</string>
+    <string name="esp_location_disaple">Location(GPS) is disabled</string>
+    <string name="esp_version">EspTouch Version: %s</string>
 </resources>

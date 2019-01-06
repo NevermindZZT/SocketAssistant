@@ -5,6 +5,7 @@ import com.letter.socketassistant.connection.ConnectionInfo;
 import com.letter.socketassistant.connection.ConnectionReceivedListener;
 import com.letter.socketassistant.connection.TcpClientConnection;
 import com.letter.socketassistant.connection.UdpConnection;
+import com.letter.socketassistant.esptouch.EsptouchActivity;
 import com.letter.socketassistant.message.Message;
 
 import android.content.Intent;
@@ -168,6 +169,10 @@ public class MainActivity extends AppCompatActivity {
                         intent = new Intent(MainActivity.this, ConnectionConfigActivity.class);
                         intent.putExtra("connection_type", ConnectionInfo.CONN_UDP);
                         startActivityForResult(intent, 1);
+                        break;
+                    case R.id.nav_esp:
+                        intent = new Intent(MainActivity.this, EsptouchActivity.class);
+                        startActivity(intent);
                         break;
 
                     default:
