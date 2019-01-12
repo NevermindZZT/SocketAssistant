@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".connection.ConnectionConfigActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.Dialog.Alert" />
+            android:theme="@style/AppAlertTheme" />
         <activity android:name=".esptouch.EsptouchActivity"></activity>
     </application>
 

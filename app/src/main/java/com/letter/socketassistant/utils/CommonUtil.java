@@ -1,4 +1,4 @@
-package utils;
+package com.letter.socketassistant.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -76,3 +76,4 @@ public class CommonUtil {
         return "0.0.0.0";
     }
 }
+

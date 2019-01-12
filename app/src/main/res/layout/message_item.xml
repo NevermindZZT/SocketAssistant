@@ -17,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/textColorPrimary"/>
+            android:textColor="@color/textColorPrimary"
+            android:textIsSelectable="true" />
 
     </LinearLayout>
 
@@ -33,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textIsSelectable="true" />
 
     </LinearLayout>
 

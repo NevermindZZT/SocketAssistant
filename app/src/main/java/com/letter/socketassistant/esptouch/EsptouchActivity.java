@@ -18,7 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -248,7 +248,7 @@ public class EsptouchActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if (!enable) {
-            mMessageTV.setText(R.string.esp_location_disaple);
+            mMessageTV.setText(R.string.esp_location_disable);
         }
     }
 

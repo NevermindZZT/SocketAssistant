@@ -2,11 +2,12 @@
 <resources>
     <color name="colorPrimary">#fafafa</color>
     <color name="colorPrimaryDark">#fafafa</color>
-    <color name="colorAccent">#775549</color>
+    <color name="colorAccent">#6f9aa1</color>
     <color name="textColorPrimary">#1a1a1a</color>
     <color name="textColorItemName">#1a1a1a</color>
     <color name="textColorItemHint">#999999</color>
     <color name="textColorAnniHint">#333333</color>
-    <color name="textColorStress">#2222aa</color>
+    <color name="textColorStress">#1024ab</color>
+    <color name="espButton">#6f9aa1</color>
     <color name="whiteBackground">#fcfcfc</color>
 </resources>

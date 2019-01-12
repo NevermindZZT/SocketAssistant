@@ -16,6 +16,9 @@
     <string name="esp_multicast">Multicast</string>
     <string name="esp_confirm">Confirm</string>
     <string name="esp_5g_not_support">5G Wifi is not supported</string>
-    <string name="esp_location_disaple">Location(GPS) is disabled</string>
+    <string name="esp_location_disable">Location(GPS) is disabled</string>
     <string name="esp_version">EspTouch Version: %s</string>
+    <string name="text_none">None</string>
+    <string name="esp_password_hint">Please input wifi password</string>
+    <string name="esp_device_count_hint">Please input device count</string>
 </resources>

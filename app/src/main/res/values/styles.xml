@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppAlertTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+    </style>
+
     <style name="MainActivityTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->

@@ -32,11 +32,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.letter.socketassistant.message.MessageAdapter;
+import com.letter.socketassistant.utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import utils.CommonUtil;
 
 public class MainActivity extends AppCompatActivity {
 
