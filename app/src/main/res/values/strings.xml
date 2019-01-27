@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">SocketAssistant</string>
+    <string name="app_version">1.0.0</string>
+    <string name="nav_tcp_server">TCP Server</string>
+    <string name="nav_tcp_client">TCP Client</string>
+    <string name="nav_udp">UDP</string>
+    <string name="nav_esp_touch">ESP Touch</string>
+    <string name="nav_about">About</string>
     <string name="send_button_text">Send</string>
     <string name="socket_local_ip">Local IP</string>
     <string name="socket_local_port">Local port</string>
@@ -21,4 +27,13 @@
     <string name="text_none">None</string>
     <string name="esp_password_hint">Please input wifi password</string>
     <string name="esp_device_count_hint">Please input device count</string>
+    <string name="about_title">About</string>
+    <string name="about_author">AUTHOR</string>
+    <string name="about_author_name">Letter</string>
+    <string name="about_author_location">ChangSha, China</string>
+    <string name="about_github">Github</string>
+    <string name="about_github_address">github.com/NevermindZZT</string>
+    <string name="about_email">Email</string>
+    <string name="about_email_address">NevermindZZT@gmail.com</string>
+    <string name="github_address">github.com/NevermindZZT</string>
 </resources>

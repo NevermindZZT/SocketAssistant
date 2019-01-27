@@ -28,7 +28,8 @@
         <activity
             android:name=".connection.ConnectionConfigActivity"
             android:theme="@style/AppAlertTheme" />
-        <activity android:name=".esptouch.EsptouchActivity"></activity>
+        <activity android:name=".esptouch.EsptouchActivity" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

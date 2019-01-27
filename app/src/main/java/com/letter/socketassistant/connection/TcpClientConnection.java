@@ -9,6 +9,9 @@ import java.net.Socket;
 
 public class TcpClientConnection extends Thread {
 
+    private final int BUFFER_SIZE = 2048;
+    private final int PACKET_TIMEOUT = 100;
+
     private String serverIp;
     private int port;
 
@@ -16,6 +19,9 @@ public class TcpClientConnection extends Thread {
     private BufferedReader reader;
     private OutputStream outputStream;
     private String line;
+    private char[] buffer = new char[BUFFER_SIZE];
+    private int index;
+    private long time;
     private ConnectionReceivedListener connectionReceivedListener;
 
     private final String TAG = "TCP CLIENT";
@@ -35,10 +41,20 @@ public class TcpClientConnection extends Thread {
             Log.d(TAG, "TcpClientConnection: Connected");
 
             while (true) {
-                if ((line = reader.readLine()) != null) {
-                    if (connectionReceivedListener != null) {
+                if (reader.ready()) {
+                    time = System.currentTimeMillis();
+                    while (System.currentTimeMillis() - time < PACKET_TIMEOUT
+                            && index < BUFFER_SIZE
+                            && reader.ready()) {
+                        buffer[index++] = (char)reader.read();
+                    }
+                    if (connectionReceivedListener != null
+                            && index > 0) {
+                        line = String.valueOf(buffer, 0, index);
+                        Log.d(TAG, "run: packet length: " + String.valueOf(index) + ", data: " + line);
                         connectionReceivedListener.onReceivedListener(line);
                     }
+                    index = 0;
                 }
             }
         } catch (Exception e) {

@@ -6,20 +6,26 @@
         <item
             android:id="@+id/nav_tcp_server"
             android:icon="@drawable/ic_tcp_server"
-            android:title="TCP Server" />
+            android:title="@string/nav_tcp_server" />
         <item
             android:id="@+id/nav_tcp_client"
             android:icon="@drawable/ic_tcp_client"
-            android:title="TCP Client" />
+            android:title="@string/nav_tcp_client" />
         <item
             android:id="@+id/nav_udp"
             android:icon="@drawable/ic_udp"
-            android:title="UDP" />
+            android:title="@string/nav_udp" />
     </group>
-    <group >
+    <group>
         <item
             android:id="@+id/nav_esp"
             android:icon="@drawable/ic_esp"
-            android:title="ESP Touch" />
+            android:title="@string/nav_esp_touch" />
+    </group>
+    <group >
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_about"
+            android:title="@string/nav_about" />
     </group>
 </menu>
