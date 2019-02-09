@@ -9,5 +9,8 @@
     <color name="textColorAnniHint">#333333</color>
     <color name="textColorStress">#1024ab</color>
     <color name="espButton">#6f9aa1</color>
-    <color name="whiteBackground">#fcfcfc</color>
+    <color name="inputBackground">#f0f0f0</color>
+    <color name="colorLeftMessageBackground">#e9e9e9</color>
+    <color name="colorRightMessageBackground">#01998c</color>
+    <color name="colorGray">#e0e0e0</color>
 </resources>

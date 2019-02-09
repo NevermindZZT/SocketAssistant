@@ -4,6 +4,7 @@ import com.letter.socketassistant.connection.ConnectionConfigActivity;
 import com.letter.socketassistant.connection.ConnectionInfo;
 import com.letter.socketassistant.connection.ConnectionReceivedListener;
 import com.letter.socketassistant.connection.TcpClientConnection;
+import com.letter.socketassistant.connection.TcpServerConnection;
 import com.letter.socketassistant.connection.UdpConnection;
 import com.letter.socketassistant.esptouch.EsptouchActivity;
 import com.letter.socketassistant.message.Message;
@@ -37,6 +38,8 @@ import com.letter.socketassistant.utils.CommonUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     public static final int MSG_RECV = 1;
@@ -44,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
     private List<Message> msgList = new ArrayList<>();
 
     private int connectionType = ConnectionInfo.CONN_NULL;
+    private TcpServerConnection tcpServerConnection;
     private TcpClientConnection tcpClientConnection;
     private UdpConnection udpConnection;
+    private ConnectionInfo connectionInfo;
 
     private TextView localIpText;
     private EditText inputText;
@@ -121,6 +126,12 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
                         case ConnectionInfo.CONN_TCP_SERVER:
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tcpServerConnection.write(-1, inputText.getText().toString());
+                                }
+                            }).start();
                             break;
 
                         case ConnectionInfo.CONN_UDP:
@@ -223,6 +234,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (connectionType) {
                     case ConnectionInfo.CONN_TCP_SERVER:
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tcpServerConnection.disconnect();
+                            }
+                        }).start();
                         break;
                     case ConnectionInfo.CONN_TCP_CLIENT:
                         new Thread(new Runnable() {
@@ -269,52 +286,9 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK) {
-                    ConnectionInfo connectionInfo = (ConnectionInfo) data.getSerializableExtra("connection_info");
+                    connectionInfo = (ConnectionInfo) data.getSerializableExtra("connection_info");
                     Log.d(TAG, "onActivityResult: type" + String.valueOf(connectionInfo.getType()));
-                    switch (connectionInfo.getType()) {
-                        case ConnectionInfo.CONN_TCP_CLIENT:
-                            connectionType = ConnectionInfo.CONN_TCP_CLIENT;
-                            tcpClientConnection = new TcpClientConnection(connectionInfo.getRemoteIp(), connectionInfo.getRemotePort());
-                            tcpClientConnection.start();
-                            tcpClientConnection.setConnectionReceivedListener(new ConnectionReceivedListener() {
-                                @Override
-                                public void onReceivedListener(String string) {
-                                    android.os.Message message = new android.os.Message();
-                                    message.what = MSG_RECV;
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("msg", string);
-                                    message.setData(bundle);
-                                    handler.sendMessage(message);
-                                }
-                            });
-                            break;
-
-                        case ConnectionInfo.CONN_TCP_SERVER:
-                            break;
-
-                        case ConnectionInfo.CONN_UDP:
-                            connectionType = ConnectionInfo.CONN_UDP;
-                            udpConnection = new UdpConnection(connectionInfo.getRemoteIp(), connectionInfo.getRemotePort(), connectionInfo.getLocalPort());
-                            udpConnection.start();
-                            udpConnection.setConnectionReceivedListener(new ConnectionReceivedListener() {
-                                @Override
-                                public void onReceivedListener(String string) {
-                                    android.os.Message message = new android.os.Message();
-                                    message.what = MSG_RECV;
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("msg", string);
-                                    message.setData(bundle);
-                                    handler.sendMessage(message);
-                                }
-                            });
-                            break;
-
-                        default:
-                            break;
-                    }
-                    if (connectionType != ConnectionInfo.CONN_NULL) {
-                        sendButton.setImageResource(R.drawable.ic_send);
-                    }
+                    connect();
                 }
                 break;
 
@@ -323,7 +297,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * 添加消息到界面
+     * @param message 需要添加的消息
+     */
     private void addItem(Message message) {
         msgList.add(message);
         adapter.notifyItemInserted(msgList.size() - 1);
@@ -331,9 +308,73 @@ public class MainActivity extends AppCompatActivity {
         inputText.setText("");
     }
 
-
+    /**
+     * 接受消息处理
+     * @param str 接收到的字符串
+     */
     private void receivedMessage (String str) {
         Message message = new Message(str, Message.TYPE_RECEIVED);
         addItem(message);
+    }
+
+    /**
+     * 数据接受处理
+     */
+    private void receivedHandler (String string) {
+        android.os.Message message = new android.os.Message();
+        message.what = MSG_RECV;
+        Bundle bundle = new Bundle();
+        bundle.putString("msg", string);
+        message.setData(bundle);
+        handler.sendMessage(message);
+    }
+
+    /**
+     * 连接
+     */
+    private void connect () {
+        switch (connectionInfo.getType()) {
+            case ConnectionInfo.CONN_TCP_CLIENT:
+                connectionType = ConnectionInfo.CONN_TCP_CLIENT;
+                tcpClientConnection = new TcpClientConnection(connectionInfo.getRemoteIp(), connectionInfo.getRemotePort());
+                tcpClientConnection.start();
+                tcpClientConnection.setConnectionReceivedListener(new ConnectionReceivedListener() {
+                    @Override
+                    public void onReceivedListener(String string) {
+                        receivedHandler(string);
+                    }
+                });
+                break;
+
+            case ConnectionInfo.CONN_TCP_SERVER:
+                connectionType = ConnectionInfo.CONN_TCP_SERVER;
+                tcpServerConnection = new TcpServerConnection(connectionInfo.getLocalPort());
+                tcpServerConnection.start();
+                tcpServerConnection.setConnectionReceivedListener(new ConnectionReceivedListener() {
+                    @Override
+                    public void onReceivedListener(String string) {
+                        receivedHandler(string);
+                    }
+                });
+                break;
+
+            case ConnectionInfo.CONN_UDP:
+                connectionType = ConnectionInfo.CONN_UDP;
+                udpConnection = new UdpConnection(connectionInfo.getRemoteIp(), connectionInfo.getRemotePort(), connectionInfo.getLocalPort());
+                udpConnection.start();
+                udpConnection.setConnectionReceivedListener(new ConnectionReceivedListener() {
+                    @Override
+                    public void onReceivedListener(String string) {
+                        receivedHandler(string);
+                    }
+                });
+                break;
+
+            default:
+                break;
+        }
+        if (connectionType != ConnectionInfo.CONN_NULL) {
+            sendButton.setImageResource(R.drawable.ic_send);
+        }
     }
 }

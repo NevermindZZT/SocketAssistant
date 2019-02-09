@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SocketAssistant</string>
-    <string name="app_version">1.0.0</string>
+    <string name="app_version">0.0.0</string>
     <string name="nav_tcp_server">TCP Server</string>
     <string name="nav_tcp_client">TCP Client</string>
     <string name="nav_udp">UDP</string>
@@ -35,5 +35,8 @@
     <string name="about_github_address">github.com/NevermindZZT</string>
     <string name="about_email">Email</string>
     <string name="about_email_address">NevermindZZT@gmail.com</string>
-    <string name="github_address">github.com/NevermindZZT</string>
+    <string name="github_address">https://github.com/NevermindZZT</string>
+    <string name="code_address">https://github.com/NevermindZZT/SocketAssistant</string>
+    <string name="share_type">*/*</string>
+    <string name="chose_email_app">please choose your email app</string>
 </resources>

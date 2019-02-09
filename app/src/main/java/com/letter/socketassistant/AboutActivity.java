@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -25,12 +26,19 @@ public class AboutActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.about_title);
         }
 
+        TextView version = findViewById(R.id.text_version);
+        try {
+            version.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         LinearLayout author = findViewById(R.id.author);
         author.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://github.com/NevermindZZT"));
+                intent.setData(Uri.parse(getString(R.string.github_address)));
                 startActivity(intent);
             }
         });
@@ -40,7 +48,7 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://github.com/NevermindZZT/SocketAssistant"));
+                intent.setData(Uri.parse(getString(R.string.code_address)));
                 startActivity(intent);
             }
         });
@@ -50,9 +58,9 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {"NevermindZZT@gmail.com"});
-                intent.setType("*/*");
-                startActivity(Intent.createChooser(intent, "choose your email app"));
+                intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {getString(R.string.about_email_address)});
+                intent.setType(getString(R.string.share_type));
+                startActivity(Intent.createChooser(intent, getString(R.string.chose_email_app)));
             }
         });
     }
