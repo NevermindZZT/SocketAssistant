@@ -9,7 +9,10 @@ package com.letter.socketassistant.model.local
  * @author Letter(nevermindzzt@gmail.com)
  * @since 1.0.0
  */
-data class MessageDao constructor(var type: Type, var msg: String?) {
+data class MessageDao constructor(var type: Type,
+                                  var msg: String?,
+                                  var name: String ?= null,
+                                  var time: String ?= null) {
 
     enum class Type {
         SEND,

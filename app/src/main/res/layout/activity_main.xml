@@ -16,6 +16,7 @@
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -122,7 +123,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            tools:headerLayout="@layout/layout_main_nav_header" />
+            app:menu="@menu/menu_main_nav"
+            app:headerLayout="@layout/layout_main_nav_header" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

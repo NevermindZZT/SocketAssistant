@@ -10,8 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.letter.socketassistant.BR
 
 /**
- * @author Letter(zhangkeqiang@ut.cn)
- * @version 1.0
+ * 数据绑定List Adapter
+ * @param T 数据类型
+ * @property context Context context
+ * @property layoutRes Int 布局资源id
+ * @property list ObservableList<T> 数据
+ * @constructor 构造一个adapter
+ *
+ * @author Letter(nevermindzzt@gmail.com)
+ * @since 1.0.0
  */
 class BindingViewAdapter<T>
 constructor(private val context: Context, private val layoutRes: Int, val list: ObservableList<T>)

@@ -5,7 +5,9 @@
     <data>
         <import type="com.letter.socketassistant.model.local.MessageDao" />
         <import type="com.letter.socketassistant.model.local.MessageDao.Type" />
+        <import type="android.view.Gravity" />
         <import type="android.view.View" />
+        <import type="android.text.TextUtils" />
         <variable
             name="item"
             type="MessageDao" />
@@ -16,6 +18,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp">
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="@{item.type == Type.RECEIVED ? Gravity.START : Gravity.END}"
+            android:layout_marginBottom="4dp"
+            android:text="@{item.name}"
+            android:textSize="10sp"
+            android:visibility="@{TextUtils.isEmpty(item.name) ? View.GONE : View.VISIBLE}"
+            tools:text="192.168.92.101:1234" />
 
         <TextView
             android:id="@+id/receivedText"

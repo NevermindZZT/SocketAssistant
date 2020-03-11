@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/main_nav_tcp_server"
+            android:icon="@drawable/ic_main_nav_tcp_server"
+            android:title="@string/main_activity_nav_tcp_server" />
+        <item
+            android:id="@+id/main_nav_tcp_client"
+            android:icon="@drawable/ic_main_nav_tcp_client"
+            android:title="@string/main_activity_nav_tcp_client" />
+        <item
+            android:id="@+id/main_nav_udp"
+            android:icon="@drawable/ic_main_nav_udp"
+            android:title="@string/main_activity_nav_udp" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/main_nav_esp_touch"
+            android:icon="@drawable/ic_main_nav_esp_touch"
+            android:title="@string/main_activity_nav_esp_touch" />
+    </group>
+    <group >
+        <item
+            android:id="@+id/main_nav_about"
+            android:icon="@drawable/ic_main_nav_about"
+            android:title="@string/main_activity_nav_about" />
+    </group>
+</menu>

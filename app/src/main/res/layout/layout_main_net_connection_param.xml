@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="com.letter.socketassistant.viewmodel.MainViewModel" />
+        <import type="android.view.View" />
+        <import type="com.letter.socketassistant.model.local.ConnectionParamDao.Type" />
+        <variable
+            name="vm"
+            type="MainViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.connectionParamDao.type == Type.TCP_SERVER ? View.GONE : View.VISIBLE}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="@string/main_activity_net_param_remote_ip"
+                android:text="@={vm.connectionParamDao.netConnectionParam.remoteIp}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.connectionParamDao.type == Type.TCP_SERVER ? View.GONE : View.VISIBLE}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="@string/main_activity_net_param_remote_port"
+                android:inputType="number"
+                android:text="@={vm.connectionParamDao.netConnectionParam.remotePort}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{vm.connectionParamDao.type == Type.TCP_CLIENT ? View.GONE : View.VISIBLE}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="@string/main_activity_net_param_local_port"
+                android:inputType="number"
+                android:text="@={vm.connectionParamDao.netConnectionParam.localPort}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</layout>
