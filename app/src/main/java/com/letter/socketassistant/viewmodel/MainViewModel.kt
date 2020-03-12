@@ -1,16 +1,16 @@
 package com.letter.socketassistant.viewmodel
 
+import android.app.Application
+import android.util.Log
 import androidx.databinding.ObservableArrayList
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.NetworkUtils
-import com.letter.socketassistant.connection.AbstractConnection
-import com.letter.socketassistant.connection.TcpClientConnection
-import com.letter.socketassistant.connection.TcpServerConnection
-import com.letter.socketassistant.connection.UdpConnection
+import com.letter.socketassistant.connection.*
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
+import com.letter.socketassistant.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,7 +30,7 @@ import java.nio.charset.Charset
  * @author Letter(nevermindzzt@gmail.com)
  * @since 1.0.0
  */
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
         private const val TAG = "MainViewModel"
@@ -45,11 +45,18 @@ class MainViewModel : ViewModel() {
     private val connectionList by lazy {
         MutableLiveData<MutableList<AbstractConnection>>(mutableListOf())
     }
-    private val selectedConnectionIndex = MutableLiveData(0)
+    val selectedConnectionIndex = MutableLiveData(0)
 
     init {
         viewModelScope.launch {
             localIp.value = "Local IP: ${getLocalIp()}"
+        }
+        selectedConnectionIndex.observeForever {
+            title.value =
+                if (connectionList.value?.size ?: 0 > 0)
+                    connectionList.value?.get(it)?.name
+                else
+                    "SocketAssistant"
         }
     }
 
@@ -97,6 +104,7 @@ class MainViewModel : ViewModel() {
      * 建立连接
      */
     fun connect() {
+        Log.d(TAG, "param: ${connectionParamDao.value?.serialConnectionParam}")
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 var connection: AbstractConnection ?= null
@@ -120,12 +128,19 @@ class MainViewModel : ViewModel() {
                         )
                     }
                     ConnectionParamDao.Type.SERIAL -> {
-
+                        connection = SerialConnection(
+                            connectionParamDao.value?.serialConnectionParam?.port ?: "",
+                            connectionParamDao.value?.serialConnectionParam?.baudRate?.toInt() ?: 0,
+                            connectionParamDao.value?.serialConnectionParam?.dataBits?.toInt() ?: 0,
+                            connectionParamDao.value?.serialConnectionParam?.parity ?: "",
+                            connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0
+                        )
                     }
                 }
                 connection?.apply {
                     onReceivedListener = onConnectionPacketReceived
                     onConnectedListener = onConnectionConnected
+                    onDisConnectedListener = onConnectionDisconnected
                     connect()
                 }
             }
@@ -133,10 +148,49 @@ class MainViewModel : ViewModel() {
     }
 
     /**
+     * 断开连接
+     * @param index Int 连接索引
+     */
+    fun disconnect(index: Int = selectedConnectionIndex.value ?: 0) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                if (index < connectionList.value?.size ?: 0) {
+                    connectionList.value?.get(index)?.disconnect()
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取连接名字列表
+     * @return List<String> 列表
+     */
+    fun getConnectionNameList() = List (connectionList.value?.size ?: 0) {
+        connectionList.value?.get(it)?.name ?: ""
+    }
+
+    /**
      * 连接成功回调
      */
     private val onConnectionConnected : (AbstractConnection) -> Unit = {
-        connectionList.value?.add(it)
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                connectionList.value?.add(it)
+                toast("${it.name} connected")
+            }
+        }
+    }
+
+    private val onConnectionDisconnected : (AbstractConnection) -> Unit = {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                if (selectedConnectionIndex.value ?: 0 == connectionList.value?.size ?: 0 - 1) {
+                    selectedConnectionIndex.value = selectedConnectionIndex.value ?: 0 - 1
+                }
+                toast("${it.name} disconnected")
+                connectionList.value?.remove(it)
+            }
+        }
     }
 
     /**

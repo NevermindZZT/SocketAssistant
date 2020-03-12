@@ -46,7 +46,6 @@ abstract class AbstractConnection : Thread() {
     open fun disconnect() {
         interrupt()
         join()
-        onDisConnectedListener?.invoke(this)
     }
 
 }

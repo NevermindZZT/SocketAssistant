@@ -3,7 +3,6 @@ package com.letter.socketassistant.connection
 import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.net.Socket
 
 /**
@@ -53,28 +52,31 @@ class TcpClientConnection constructor(private val socket: Socket,
         val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
         val data = CharArray(maxPacketLen)
         while (!isInterrupted) {
-            if (reader.ready()) {
-                val length = reader.read(data)
-                if (length > 0) {
-                    val bytes = ByteArray(
-                        length
-                    ) {
-                        data[it].toByte()
-                    }
-                    onReceivedListener?.invoke(this, bytes)
-                }
-            }
             try {
+                if (reader.ready()) {
+                    val length = reader.read(data)
+                    if (length > 0) {
+                        val bytes = ByteArray(
+                            length
+                        ) {
+                            data[it].toByte()
+                        }
+                        onReceivedListener?.invoke(this, bytes)
+                    }
+                }
                 sleep(packetTimeOut)
-            } catch (e: InterruptedException) {
-                Log.e(TAG, "", e)
+            } catch (e: Exception) {
+                Log.w(TAG, "", e)
+                break
             }
         }
+        onDisConnectedListener?.invoke(this)
     }
 
     override fun disconnect() {
         super.disconnect()
         socket.getOutputStream()?.close()
         socket.close()
+        Log.d(TAG, "connection disconnect")
     }
 }

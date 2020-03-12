@@ -12,6 +12,7 @@ package com.letter.socketassistant.model.local
 data class ConnectionParamDao constructor(var type: Type = Type.TCP_SERVER) {
 
     var netConnectionParam = NetConnectionParam()
+    var serialConnectionParam = SerialConnectionParam()
 
     /**
      * 连接类型
@@ -34,6 +35,13 @@ data class ConnectionParamDao constructor(var type: Type = Type.TCP_SERVER) {
      * @since 1.0.0
      */
     data class NetConnectionParam constructor(var remoteIp: String ?= null,
-                                         var remotePort: String ?= null,
-                                         var localPort: String ?= null)
+                                              var remotePort: String ?= null,
+                                              var localPort: String ?= null)
+
+
+    data class SerialConnectionParam constructor(var port: String ?= null,
+                                                 var baudRate: String ?= null,
+                                                 var dataBits: String ?= null,
+                                                 var parity: String ?= null,
+                                                 var stopBits: String ?= null)
 }

@@ -1,7 +1,6 @@
 package com.letter.socketassistant.connection
 
 import android.util.Log
-import java.lang.Exception
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -52,11 +51,13 @@ class UdpConnection constructor(private var remoteIp: String?,
         while (!isInterrupted) {
             try {
                 socket.receive(packetReceived)
-                onReceivedListener?.invoke(this, data.sliceArray(IntRange(0, packetReceived.length)))
+                onReceivedListener?.invoke(this, data.sliceArray(IntRange(0, packetReceived.length - 1)))
             } catch (e : Exception) {
-                Log.e(TAG, "", e)
+                Log.w(TAG, "", e)
+                break
             }
         }
+        onDisConnectedListener?.invoke(this)
     }
 
     override fun disconnect() {

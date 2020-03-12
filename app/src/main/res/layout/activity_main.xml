@@ -54,65 +54,99 @@
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent" >
 
-                    <ImageButton
-                        android:id="@+id/addExtraButton"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/addExtraButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@android:color/transparent"
+                            android:onClick="@{(v)->presenter.onClick(v)}"
+                            android:src="@drawable/ic_main_add_extra"
+                            tools:ignore="contentDescription" />
+
+                        <ImageButton
+                            android:id="@+id/atButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:onClick="@{(v)->presenter.onClick(v)}"
+                            android:src="@drawable/ic_main_at"
+                            tools:ignore="contentDescription" />
+
+                        <EditText
+                            android:id="@+id/editText"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_text_input"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="@={vm.inputText}" />
+
+                        <ImageButton
+                            android:id="@+id/sendButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:background="@android:color/transparent"
+                            android:onClick="@{(v)->presenter.onClick(v)}"
+                            android:src="@drawable/ic_main_send"
+                            tools:ignore="contentDescription" />
+                    </LinearLayout>
+
+                    <GridLayout
+                        android:id="@+id/extraLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
                         android:layout_marginBottom="8dp"
-                        android:background="@android:color/transparent"
-                        android:onClick="@{(v)->presenter.onClick(v)}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_main_add_extra"
-                        tools:ignore="contentDescription" />
+                        android:columnCount="4"
+                        android:rowCount="1"
+                        android:visibility="gone">
 
-                    <EditText
-                        android:id="@+id/editText"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_text_input"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="@={vm.inputText}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/sendButton"
-                        app:layout_constraintStart_toEndOf="@+id/addExtraButton"
-                        app:layout_constraintTop_toTopOf="@+id/addExtraButton"
-                        tools:text="Hello" />
+                        <TextView
+                            android:id="@+id/disconnectButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:clickable="true"
+                            android:drawableTop="@drawable/ic_main_extra_disconnect"
+                            android:drawablePadding="8dp"
+                            android:focusable="true"
+                            android:onClick="@{(v)->presenter.onClick(v)}"
+                            android:text="@string/main_activity_extra_disconnect" />
+                    </GridLayout>
+                </LinearLayout>
 
-                    <ImageButton
-                        android:id="@+id/sendButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@android:color/transparent"
-                        android:onClick="@{(v)->presenter.onClick(v)}"
-                        app:layout_constraintBottom_toBottomOf="@+id/addExtraButton"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/addExtraButton"
-                        app:srcCompat="@drawable/ic_send_uncheck"
-                        tools:ignore="contentDescription"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -121,6 +155,7 @@
             android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginEnd="96dp"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:menu="@menu/menu_main_nav"

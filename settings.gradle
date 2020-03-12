@@ -1,2 +1,3 @@
 rootProject.name='SocketAssistant'
 include ':app'
+include ':serialport'

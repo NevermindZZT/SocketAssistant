@@ -4,10 +4,17 @@
     <string name="main_activity_nav_tcp_server">Tcp Server</string>
     <string name="main_activity_nav_tcp_client">Tcp Client</string>
     <string name="main_activity_nav_udp">Udp</string>
+    <string name="main_activity_nav_serial">Serial</string>
     <string name="main_activity_nav_esp_touch">Esp Touch</string>
     <string name="main_activity_nav_about">About</string>
     <string name="main_activity_net_param_remote_ip">Remote IP</string>
     <string name="main_activity_net_param_remote_port">Remote Port</string>
     <string name="main_activity_net_param_local_port">Local Port</string>
+    <string name="main_activity_serial_param_port">Serial Port</string>
+    <string name="main_activity_serial_param_baud_rate">Baud Rate</string>
+    <string name="main_activity_serial_param_data_bits">Data Bits</string>
+    <string name="main_activity_serial_param_parity">Parity</string>
+    <string name="main_activity_serial_param_stop_bits">Stop Bits</string>
     <string name="main_activity_dialog_confirm">Confirm</string>
+    <string name="main_activity_extra_disconnect">Disconnect</string>
 </resources>

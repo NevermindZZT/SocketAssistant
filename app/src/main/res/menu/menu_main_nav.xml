@@ -15,6 +15,10 @@
             android:id="@+id/main_nav_udp"
             android:icon="@drawable/ic_main_nav_udp"
             android:title="@string/main_activity_nav_udp" />
+        <item
+            android:id="@+id/main_nav_serial"
+            android:icon="@drawable/ic_main_nav_serial"
+            android:title="@string/main_activity_nav_serial" />
     </group>
     <group>
         <item
