@@ -18,11 +18,12 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        tools:openDrawer="start" >
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" >
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -131,19 +132,46 @@
                         android:layout_marginBottom="8dp"
                         android:columnCount="4"
                         android:rowCount="1"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             android:id="@+id/disconnectButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="16dp"
+                            android:layout_margin="8dp"
                             android:clickable="true"
                             android:drawableTop="@drawable/ic_main_extra_disconnect"
                             android:drawablePadding="8dp"
                             android:focusable="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
                             android:onClick="@{(v)->presenter.onClick(v)}"
-                            android:text="@string/main_activity_extra_disconnect" />
+                            android:text="@string/main_activity_extra_disconnect"
+                            android:textColor="@color/textColorPrimary" />
+
+                        <CheckBox
+                            android:id="@+id/hexTransmitButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:button="@null"
+                            android:checked="@={vm.hexTransmit}"
+                            android:drawableTop="@drawable/ic_main_hex_transmit"
+                            android:drawablePadding="8dp"
+                            android:text="@string/main_activity_extra_hex_transmit"
+                            android:textColor="@color/textColorPrimary" />
+
+                        <CheckBox
+                            android:id="@+id/hexReceiveButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:button="@null"
+                            android:checked="@={vm.hexReceive}"
+                            android:drawableTop="@drawable/ic_main_hex_receive"
+                            android:drawablePadding="8dp"
+                            android:text="@string/main_activity_extra_hex_receive"
+                            android:textColor="@color/textColorPrimary" />
                     </GridLayout>
                 </LinearLayout>
 

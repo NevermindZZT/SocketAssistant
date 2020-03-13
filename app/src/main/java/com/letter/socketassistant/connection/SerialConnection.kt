@@ -2,6 +2,7 @@ package com.letter.socketassistant.connection
 
 import android.util.Log
 import com.letter.serialport.SerialPort
+import com.letter.socketassistant.utils.tryRead
 
 /**
  * 串口连接
@@ -53,11 +54,13 @@ class SerialConnection constructor(private val path: String,
             val data = ByteArray(maxPacketLen)
             while (!isInterrupted) {
                 try {
-                    val length = inputStream?.read(data) ?: 0
-                    if (length > 0) {
+                    while (inputStream?.available() == 0) {
+                        sleep(10)
+                    }
+                    val length = inputStream?.tryRead(data, maxPacketLen, packetTimeOut)
+                    if (length != null) {
                         onReceivedListener?.invoke(this, data.sliceArray(IntRange(0, length - 1)))
                     }
-                    sleep(packetTimeOut)
                 } catch (e: Exception) {
                     Log.w(TAG, "", e)
                     break

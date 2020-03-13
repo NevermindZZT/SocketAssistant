@@ -17,4 +17,6 @@
     <string name="main_activity_serial_param_stop_bits">Stop Bits</string>
     <string name="main_activity_dialog_confirm">Confirm</string>
     <string name="main_activity_extra_disconnect">Disconnect</string>
+    <string name="main_activity_extra_hex_transmit">Hex Transmit</string>
+    <string name="main_activity_extra_hex_receive">Hex Receive</string>
 </resources>

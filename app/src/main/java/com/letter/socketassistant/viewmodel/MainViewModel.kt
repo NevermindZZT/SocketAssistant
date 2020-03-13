@@ -10,6 +10,8 @@ import com.blankj.utilcode.util.NetworkUtils
 import com.letter.socketassistant.connection.*
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
+import com.letter.socketassistant.utils.toHexByteArray
+import com.letter.socketassistant.utils.toHexString
 import com.letter.socketassistant.utils.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,6 +48,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         MutableLiveData<MutableList<AbstractConnection>>(mutableListOf())
     }
     val selectedConnectionIndex = MutableLiveData(0)
+    val hexTransmit = MutableLiveData(false)
+    val hexReceive = MutableLiveData(false)
 
     init {
         viewModelScope.launch {
@@ -70,7 +74,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     connection?.send(
-                        inputText.value?.toByteArray(Charset.defaultCharset())
+                        if (hexTransmit.value != true)
+                            inputText.value?.toByteArray(Charset.defaultCharset())
+                        else
+                            inputText.value?.toHexByteArray()
                     )
                 }
             }
@@ -181,6 +188,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * 连接断开回调
+     */
     private val onConnectionDisconnected : (AbstractConnection) -> Unit = {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
@@ -203,7 +213,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 messageList.add(
                     MessageDao(
                         MessageDao.Type.RECEIVED,
-                        bytes.toString(Charset.defaultCharset()),
+                        if (hexReceive.value != true)
+                            bytes.toString(Charset.defaultCharset())
+                        else
+                            bytes.toHexString(),
                         abstractConnection.name
                     )
                 )
