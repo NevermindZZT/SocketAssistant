@@ -17,10 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".service.ConnectionService"
-            android:enabled="true"
-            android:exported="true"></service>
+        <activity android:name=".activity.EspTouchActivity" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>

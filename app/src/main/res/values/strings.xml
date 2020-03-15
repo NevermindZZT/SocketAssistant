@@ -19,4 +19,19 @@
     <string name="main_activity_extra_disconnect">Disconnect</string>
     <string name="main_activity_extra_hex_transmit">Hex Transmit</string>
     <string name="main_activity_extra_hex_receive">Hex Receive</string>
+
+    <string name="esp_touch_activity_title">Esp Touch</string>
+    <string name="esp_touch_activity_ssid">SSID:</string>
+    <string name="esp_touch_activity_bssid">BSSID:</string>
+    <string name="esp_touch_activity_ssid_hint">No WiFi connected</string>
+    <string name="esp_touch_activity_password">Password:</string>
+    <string name="esp_touch_activity_password_hint">Please input password</string>
+    <string name="esp_touch_activity_device_count">Device Count:</string>
+    <string name="esp_touch_activity_device_count_hint">Please input device count</string>
+    <string name="esp_touch_activity_broadcast">Broadcast</string>
+    <string name="esp_touch_activity_multicast">Multicast</string>
+    <string name="esp_touch_activity_confirm_button">Confirm</string>
+    <string name="esp_touch_activity_5G_wifi_not_supported">5G Wifi is not supported</string>
+    <string name="esp_touch_activity_dialog_configuring">Esp Touch is configuring, please wait for a moment…</string>
+    <string name="esp_touch_activity_dialog_negative_button">Cancel</string>
 </resources>

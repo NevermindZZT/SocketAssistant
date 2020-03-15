@@ -1,7 +1,8 @@
 package com.letter.socketassistant.utils
 
-import android.app.Application
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
@@ -21,9 +22,8 @@ import java.io.Reader
  * @param message String 消息
  * @param duration Int 提示时长
  */
-fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, message, duration).show()
-}
+fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT)
+        = Toast.makeText(this, message, duration).show()
 
 /**
  * Toast
@@ -31,9 +31,8 @@ fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
  * @param resId Int 文本资源id
  * @param duration Int 提示时长
  */
-fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, resources.getText(resId), duration).show()
-}
+fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT)
+        = Toast.makeText(this, resources.getText(resId), duration).show()
 
 /**
  * Toast
@@ -41,9 +40,8 @@ fun Context.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
  * @param message String 消息
  * @param duration Int 提示时长
  */
-fun AndroidViewModel.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(getApplication(), message, duration).show()
-}
+fun AndroidViewModel.toast(message: String, duration: Int = Toast.LENGTH_SHORT)
+        = Toast.makeText(getApplication(), message, duration).show()
 
 /**
  * Toast
@@ -51,10 +49,25 @@ fun AndroidViewModel.toast(message: String, duration: Int = Toast.LENGTH_SHORT) 
  * @param resId Int 文本资源id
  * @param duration Int 提示时长
  */
-fun AndroidViewModel.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
-    val context = getApplication<Application>()
-    Toast.makeText(context, context.resources.getText(resId), duration).show()
-}
+fun AndroidViewModel.toast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT)
+        = Toast.makeText(getContext(), getContext().resources.getText(resId), duration).show()
+
+/**
+ * 获取Context
+ * @receiver AndroidViewModel
+ * @return Context Context
+ */
+fun AndroidViewModel.getContext(): Context
+        = getApplication()
+
+/**
+ * 获取字符串
+ * @receiver AndroidViewModel
+ * @param resId Int 资源id
+ * @return String 字符串
+ */
+fun AndroidViewModel.getString(@StringRes resId: Int)
+        = getContext().getString(resId)
 
 /**
  * 尝试从Reader中读取一定大小的数据
@@ -118,4 +131,13 @@ fun String.toHexByteArray(): ByteArray {
         byteList.add(it.toByte(16))
     }
     return byteList.toByteArray()
+}
+
+/**
+ * 启动活动
+ * @receiver Activity
+ * @param clazz Class<Activity> 活动
+ */
+fun <T: Activity> Activity.startActivity(clazz: Class<T>) {
+    startActivity(Intent(this, clazz))
 }

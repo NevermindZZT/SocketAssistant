@@ -26,6 +26,7 @@ import com.letter.socketassistant.databinding.LayoutMainNetConnectionParamBindin
 import com.letter.socketassistant.databinding.LayoutMainSerialConnectionParamBinding
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
+import com.letter.socketassistant.utils.startActivity
 import com.letter.socketassistant.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -181,6 +182,8 @@ class MainActivity : AppCompatActivity(), Presenter,
                 showParamDialog(ConnectionParamDao.Type.UDP, R.string.main_activity_nav_udp)
             R.id.main_nav_serial ->
                 showParamDialog(ConnectionParamDao.Type.SERIAL, R.string.main_activity_nav_serial)
+            R.id.main_nav_esp_touch ->
+                startActivity(EspTouchActivity::class.java)
         }
         drawerLayout.closeDrawers()
         return true
