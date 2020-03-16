@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.NetworkUtils
+import com.letter.serialport.SerialPortFinder
 import com.letter.socketassistant.connection.*
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
@@ -47,6 +48,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val connectionList by lazy {
         MutableLiveData<MutableList<AbstractConnection>>(mutableListOf())
     }
+    val serialPortList = SerialPortFinder().deviceNameList
+    val serialParityList = listOf("N", "O", "E")
     val selectedConnectionIndex = MutableLiveData(0)
     val hexTransmit = MutableLiveData(false)
     val hexReceive = MutableLiveData(false)

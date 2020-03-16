@@ -21,7 +21,7 @@ class SerialPortFinder {
         var line: String ?= reader.readLine()
         while (line != null) {
             val driverName = line?.substring(0, 0x15)?.trim()
-            val words = line?.split(" +")
+            val words = line?.split(" +".toRegex())
             if (words != null) {
                 if (words.size >= 5
                     && words[words.size - 1].equals("serial")) {
@@ -38,7 +38,7 @@ class SerialPortFinder {
         val deviceNameList = mutableListOf<String>()
         for (driver in devices) {
             for (file in driver.devices) {
-                deviceNameList.add("${file.name} (${driver.name})")
+                deviceNameList.add(file.absolutePath)
             }
         }
         deviceNameList

@@ -9,13 +9,24 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
 import com.letter.socketassistant.LetterApplication
 import com.letter.socketassistant.R
 import com.letter.socketassistant.databinding.ActivityEspTouchBinding
 import com.letter.socketassistant.presenter.Presenter
 import com.letter.socketassistant.viewmodel.EspTouchViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_esp_touch.*
 
+/**
+ * Esp Touch 活动
+ * @property binding ActivityEspTouchBinding bingding
+ * @property model EspTouchViewModel View Model
+ * @property progressDialog MaterialDialog 加载对话框
+ * @property messageDialog MaterialDialog 消息对话框
+ *
+ * @author Letter(nevermindzzt@gmail.com)lk;
+ * @since 1.0.0
+ */
 class EspTouchActivity : AppCompatActivity(), Presenter {
 
     companion object {
@@ -29,9 +40,17 @@ class EspTouchActivity : AppCompatActivity(), Presenter {
     }
     private val progressDialog by lazy {
         MaterialDialog(this).apply {
-            setContentView(R.layout.layout_esp_touch_configuring)
+            customView(R.layout.layout_esp_touch_configuring)
+            cancelOnTouchOutside(false)
             negativeButton(R.string.esp_touch_activity_dialog_negative_button) {
                 model.cancelEspTouch()
+                it.dismiss()
+            }
+        }
+    }
+    private val messageDialog by lazy {
+        MaterialDialog(this).apply {
+            negativeButton(R.string.esp_touch_activity_dialog_positive_button) {
                 it.dismiss()
             }
         }
@@ -53,15 +72,24 @@ class EspTouchActivity : AppCompatActivity(), Presenter {
 
         /* 设置数据 */
         binding.let {
-            it.lifecycleOwner = this@EspTouchActivity
+            it.lifecycleOwner = this
             it.vm = model
-            it.presenter = this@EspTouchActivity
+            it.presenter = this
         }
 
         model.apply {
             isConfiguring.observe(this@EspTouchActivity) {
                 progressDialog.apply {
                     if (it) show() else dismiss()
+                }
+            }
+            configMessage.observe(this@EspTouchActivity) {
+                if (it.isNotEmpty()) {
+                    messageDialog.show {
+                        message(text = it)
+                    }
+                } else {
+                    messageDialog.dismiss()
                 }
             }
         }
@@ -76,7 +104,7 @@ class EspTouchActivity : AppCompatActivity(), Presenter {
      */
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.sendButton -> model.startEspTouch()
+            R.id.confirmButton -> model.startEspTouch()
         }
     }
 

@@ -4,9 +4,13 @@ import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableList
@@ -29,6 +33,7 @@ import com.letter.socketassistant.model.local.MessageDao
 import com.letter.socketassistant.utils.startActivity
 import com.letter.socketassistant.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_main_serial_connection_param.*
 
 /**
  * 主界面Activity
@@ -43,6 +48,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), Presenter,
     NavigationView.OnNavigationItemSelectedListener,
     View.OnFocusChangeListener {
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
 
     private lateinit var binding : ActivityMainBinding
     private val model by lazy {
@@ -72,14 +81,14 @@ class MainActivity : AppCompatActivity(), Presenter,
 
         /* 设置数据 */
         binding.let {
-            it.lifecycleOwner = this@MainActivity
+            it.lifecycleOwner = this
             it.vm = model
             it.presenter = this
         }
 
         /* navigation view header layout 数据绑定 */
         DataBindingUtil.bind<LayoutMainNavHeaderBinding>(navigationView.getHeaderView(0)).let {
-            it?.lifecycleOwner = this@MainActivity
+            it?.lifecycleOwner = this
             it?.vm = model
         }
 
@@ -104,6 +113,41 @@ class MainActivity : AppCompatActivity(), Presenter,
             null,
             false
         )
+
+        /* 初始化串口端口下拉框 */
+        val serialPortSpinner = serialParamBinding.root.findViewById<Spinner>(R.id.serialPortSpinner)
+        val serialPortAdapter = ArrayAdapter(
+            this@MainActivity,
+            R.layout.layout_main_serial_select,
+            model.serialPortList
+        )
+        serialPortAdapter.setDropDownViewResource(R.layout.layout_main_serial_drop)
+        serialPortSpinner.adapter = serialPortAdapter
+        serialPortSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                model.connectionParamDao.value?.serialConnectionParam?.port = model.serialPortList[position]
+            }
+        }
+
+        /* 初始化串口端口下拉框 */
+        val serialParitySpinner = serialParamBinding.root.findViewById<Spinner>(R.id.serialParitySpinner)
+        val serialParityAdapter = ArrayAdapter(
+            this@MainActivity,
+            R.layout.layout_main_serial_select,
+            model.serialParityList
+        )
+        serialParityAdapter.setDropDownViewResource(R.layout.layout_main_serial_drop)
+        serialParitySpinner.adapter = serialParityAdapter
+        serialParitySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                model.connectionParamDao.value?.serialConnectionParam?.parity = model.serialParityList[position]
+            }
+        }
+
 
         /* ViewModel */
         model.apply {
@@ -184,6 +228,8 @@ class MainActivity : AppCompatActivity(), Presenter,
                 showParamDialog(ConnectionParamDao.Type.SERIAL, R.string.main_activity_nav_serial)
             R.id.main_nav_esp_touch ->
                 startActivity(EspTouchActivity::class.java)
+            R.id.main_nav_about ->
+                startActivity(AboutActivity::class.java)
         }
         drawerLayout.closeDrawers()
         return true

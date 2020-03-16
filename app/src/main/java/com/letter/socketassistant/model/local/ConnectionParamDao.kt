@@ -40,8 +40,8 @@ data class ConnectionParamDao constructor(var type: Type = Type.TCP_SERVER) {
 
 
     data class SerialConnectionParam constructor(var port: String ?= null,
-                                                 var baudRate: String ?= null,
-                                                 var dataBits: String ?= null,
-                                                 var parity: String ?= null,
-                                                 var stopBits: String ?= null)
+                                                 var baudRate: String ?= "115200",
+                                                 var dataBits: String ?= "8",
+                                                 var parity: String ?= "N",
+                                                 var stopBits: String ?= "1")
 }

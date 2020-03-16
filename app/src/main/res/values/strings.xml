@@ -33,5 +33,14 @@
     <string name="esp_touch_activity_confirm_button">Confirm</string>
     <string name="esp_touch_activity_5G_wifi_not_supported">5G Wifi is not supported</string>
     <string name="esp_touch_activity_dialog_configuring">Esp Touch is configuring, please wait for a moment…</string>
+    <string name="esp_touch_activity_dialog_start_fail">Create Esp Touch task fail</string>
+    <string name="esp_touch_activity_dialog_config_fail">Esp Touch fail</string>
+    <string name="esp_touch_activity_dialog_success_item">BSSID = %s, InetAddress = %s\n</string>
     <string name="esp_touch_activity_dialog_negative_button">Cancel</string>
+    <string name="esp_touch_activity_dialog_positive_button">Confirm</string>
+
+    <string name="about_activity_title">About</string>
+    <string name="about_activity_open_source_text">Github</string>
+    <string name="about_activity_open_source_address">https://github.com/NevermindZZT/SocketAssistant</string>
+    <string name="about_activity_copyright_text">© 2020 Letter All rights reserved</string>
 </resources>

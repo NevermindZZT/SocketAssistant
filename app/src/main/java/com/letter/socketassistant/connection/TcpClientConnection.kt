@@ -2,8 +2,6 @@ package com.letter.socketassistant.connection
 
 import android.util.Log
 import com.letter.socketassistant.utils.tryRead
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.net.Socket
 
 /**
@@ -50,15 +48,15 @@ class TcpClientConnection constructor(private val socket: Socket,
 
     override fun run() {
         Log.d(TAG, "tcp client run: ${socket.port}")
-        val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
+        val inputStream = socket.getInputStream()
         val data = ByteArray(maxPacketLen)
         while (!isInterrupted) {
             try {
-                while (!reader.ready()) {
+                while (inputStream?.available() == 0) {
                     sleep(10)
                 }
-                val length = reader.tryRead(data, maxPacketLen, packetTimeOut)
-                if (length > 0) {
+                val length = inputStream?.tryRead(data, maxPacketLen, packetTimeOut)
+                if (length != null) {
                     onReceivedListener?.invoke(this, data.sliceArray(IntRange(0, length - 1)))
                 }
             } catch (e: Exception) {

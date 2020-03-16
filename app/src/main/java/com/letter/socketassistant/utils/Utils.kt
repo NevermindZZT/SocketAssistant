@@ -3,6 +3,7 @@ package com.letter.socketassistant.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
@@ -15,6 +16,8 @@ import java.io.Reader
  * @author Letter(nevermindzzt@gmail.com)
  * @since 1.0.0
  */
+
+private const val TAG = "Utils"
 
 /**
  * Toast
@@ -70,27 +73,6 @@ fun AndroidViewModel.getString(@StringRes resId: Int)
         = getContext().getString(resId)
 
 /**
- * 尝试从Reader中读取一定大小的数据
- * @receiver Reader
- * @param byteArray ByteArray 数据
- * @param maxLength Int 最大数据长度
- * @param timeout Long 超时时间
- * @return Int 读取到的数据长度
- */
-fun Reader.tryRead(byteArray: ByteArray, maxLength: Int = byteArray.size, timeout: Long = 100): Int {
-    var index = 0
-    if (ready()) {
-        val time = System.currentTimeMillis()
-        while (System.currentTimeMillis() - time < timeout
-            && index < maxLength
-            && ready()) {
-            byteArray[index++] = read().toByte()
-        }
-    }
-    return index
-}
-
-/**
  * 尝试从InputStream中读取一定大小的数据
  * @receiver Reader
  * @param byteArray ByteArray 数据
@@ -115,7 +97,7 @@ fun InputStream.tryRead(byteArray: ByteArray, maxLength: Int = byteArray.size, t
  */
 fun ByteArray.toHexString(): String {
     return joinToString(" ") {
-        "%02x".format(it)
+        "%02x".format(it.toInt() and 0xFF)
     }
 }
 
@@ -124,11 +106,11 @@ fun ByteArray.toHexString(): String {
  * @receiver String
  * @return ByteArray 转换后数据
  */
-fun String.toHexByteArray(): ByteArray {
+fun String.toHexByteArray(delimiters: String = " "): ByteArray {
     val byteList = mutableListOf<Byte>()
-    val words = split(" ")
+    val words = split(delimiters)
     words.forEach {
-        byteList.add(it.toByte(16))
+        byteList.add(it.toInt(16).toByte())
     }
     return byteList.toByteArray()
 }
