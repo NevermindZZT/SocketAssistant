@@ -6,6 +6,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.letter.serialport.SerialPortFinder
 import com.letter.socketassistant.connection.*
@@ -40,7 +41,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     val title = MutableLiveData("SocketAssistant")
-    val userName = MutableLiveData("Letter")
+    val userName by lazy {
+        MutableLiveData(DeviceUtils.getModel())
+    }
     val localIp = MutableLiveData("")
     val inputText  = MutableLiveData("")
     val messageList = ObservableArrayList<MessageDao>()
