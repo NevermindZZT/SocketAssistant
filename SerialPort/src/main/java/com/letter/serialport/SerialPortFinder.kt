@@ -68,11 +68,15 @@ class SerialPortFinder {
     class Driver constructor(var name: String?, val root: String) {
         val devices by lazy {
             val value = Vector<File>()
-            val devs = File("/dev")
-            for (file in devs.listFiles()) {
-                if (file.absolutePath.startsWith(root)) {
-                    value.add(file)
+            try {
+                val devs = File("/dev")
+                for (file in devs.listFiles()) {
+                    if (file.absolutePath.startsWith(root)) {
+                        value.add(file)
+                    }
                 }
+            } catch (e : Exception) {
+                Log.w(TAG, "", e)
             }
             value
         }
