@@ -38,6 +38,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
         private const val TAG = "MainViewModel"
+        val CHARSET_LIST = listOf("utf-8", "gbk", "unicode")
     }
 
     val title = MutableLiveData("SocketAssistant")
@@ -56,6 +57,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val selectedConnectionIndex = MutableLiveData(0)
     val hexTransmit = MutableLiveData(false)
     val hexReceive = MutableLiveData(false)
+    val clearWhenSend = MutableLiveData(true)
+    val charSet = MutableLiveData(CHARSET_LIST[0])
 
     init {
         viewModelScope.launch {
@@ -81,7 +84,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 withContext(Dispatchers.IO) {
                     connection?.send(
                         if (hexTransmit.value != true)
-                            inputText.value?.toByteArray(Charset.defaultCharset())
+                            inputText.value?.toByteArray(Charset.forName(charSet.value))
                         else
                             inputText.value?.toHexByteArray()
                     )
@@ -94,7 +97,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     connection?.name
                 )
             )
-            inputText.value = null
+            if (clearWhenSend.value == true) {
+                inputText.value = null
+            }
         }
     }
 
@@ -220,7 +225,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     MessageDao(
                         MessageDao.Type.RECEIVED,
                         if (hexReceive.value != true)
-                            bytes.toString(Charset.defaultCharset())
+                            bytes.toString(Charset.forName(charSet.value))
                         else
                             bytes.toHexString(),
                         abstractConnection.name

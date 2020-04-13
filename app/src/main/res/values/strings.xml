@@ -19,6 +19,9 @@
     <string name="main_activity_extra_disconnect">Disconnect</string>
     <string name="main_activity_extra_hex_transmit">Hex Transmit</string>
     <string name="main_activity_extra_hex_receive">Hex Receive</string>
+    <string name="main_activity_extra_clear_when_send">Clear when send</string>
+    <string name="main_activity_extra_charset">CharSet</string>
+    <string name="main_activity_toolbar_disconnect">Disconnect</string>
 
     <string name="esp_touch_activity_title">Esp Touch</string>
     <string name="esp_touch_activity_ssid">SSID:</string>

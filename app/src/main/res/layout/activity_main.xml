@@ -18,12 +18,11 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:openDrawer="start" >
+        android:layout_height="match_parent">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -39,7 +38,9 @@
                     android:theme="@style/ThemeOverlay.AppCompat.Light"
                     app:contentInsetStart="0dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:title="@{vm.title}">
+                    app:title="@{vm.title}"
+                    tools:menu="@menu/menu_main_toolbar"
+                    tools:title="SocketAssistant">
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -67,7 +68,7 @@
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" >
+                    app:layout_constraintStart_toStartOf="parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -100,7 +101,7 @@
                         <EditText
                             android:id="@+id/editText"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
@@ -108,9 +109,13 @@
                             android:layout_weight="1"
                             android:background="@drawable/bg_text_input"
                             android:ems="10"
-                            android:inputType="textPersonName"
+                            android:inputType="textMultiLine"
+                            android:maxHeight="128dp"
                             android:paddingStart="16dp"
+                            android:paddingTop="4dp"
                             android:paddingEnd="16dp"
+                            android:paddingBottom="4dp"
+                            android:singleLine="false"
                             android:text="@={vm.inputText}" />
 
                         <ImageButton
@@ -124,55 +129,74 @@
                             tools:ignore="contentDescription" />
                     </LinearLayout>
 
-                    <GridLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/extraLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginBottom="8dp"
-                        android:columnCount="4"
-                        android:rowCount="1"
                         android:visibility="gone"
                         tools:visibility="visible">
-
-                        <TextView
-                            android:id="@+id/disconnectButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:clickable="true"
-                            android:drawableTop="@drawable/ic_main_extra_disconnect"
-                            android:drawablePadding="8dp"
-                            android:focusable="true"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:onClick="@{(v)->presenter.onClick(v)}"
-                            android:text="@string/main_activity_extra_disconnect"
-                            android:textColor="@color/textColorPrimary" />
 
                         <CheckBox
                             android:id="@+id/hexTransmitButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:button="@null"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
                             android:checked="@={vm.hexTransmit}"
-                            android:drawableTop="@drawable/ic_main_hex_transmit"
-                            android:drawablePadding="8dp"
                             android:text="@string/main_activity_extra_hex_transmit"
-                            android:textColor="@color/textColorPrimary" />
+                            android:textColor="@color/textColorPrimary"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <CheckBox
+                            android:id="@+id/clearWhenSendButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:checked="@={vm.clearWhenSend}"
+                            android:text="@string/main_activity_extra_clear_when_send"
+                            android:textColor="@color/textColorPrimary"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/hexTransmitButton" />
 
                         <CheckBox
                             android:id="@+id/hexReceiveButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:button="@null"
+                            android:layout_marginStart="32dp"
                             android:checked="@={vm.hexReceive}"
-                            android:drawableTop="@drawable/ic_main_hex_receive"
-                            android:drawablePadding="8dp"
                             android:text="@string/main_activity_extra_hex_receive"
-                            android:textColor="@color/textColorPrimary" />
-                    </GridLayout>
+                            android:textColor="@color/textColorPrimary"
+                            app:layout_constraintBottom_toBottomOf="@+id/hexTransmitButton"
+                            app:layout_constraintStart_toEndOf="@+id/hexTransmitButton"
+                            app:layout_constraintTop_toTopOf="@+id/hexTransmitButton" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:text="@string/main_activity_extra_charset"
+                            android:textColor="@color/textColorPrimary"
+                            app:layout_constraintBottom_toBottomOf="@+id/charsetSpinner"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/charsetSpinner" />
+
+                        <Spinner
+                            android:id="@+id/charsetSpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginBottom="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/clearWhenSendButton" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -183,11 +207,11 @@
             android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="96dp"
             android:layout_gravity="start"
+            android:layout_marginEnd="96dp"
             android:fitsSystemWindows="true"
-            app:menu="@menu/menu_main_nav"
-            app:headerLayout="@layout/layout_main_nav_header" />
+            app:headerLayout="@layout/layout_main_nav_header"
+            app:menu="@menu/menu_main_nav" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

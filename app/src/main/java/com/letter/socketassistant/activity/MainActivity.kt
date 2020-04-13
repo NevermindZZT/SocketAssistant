@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -33,7 +33,6 @@ import com.letter.socketassistant.model.local.MessageDao
 import com.letter.socketassistant.utils.startActivity
 import com.letter.socketassistant.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_main_serial_connection_param.*
 
 /**
  * 主界面Activity
@@ -118,10 +117,10 @@ class MainActivity : AppCompatActivity(), Presenter,
         val serialPortSpinner = serialParamBinding.root.findViewById<Spinner>(R.id.serialPortSpinner)
         val serialPortAdapter = ArrayAdapter(
             this@MainActivity,
-            R.layout.layout_main_serial_select,
+            R.layout.layout_main_spinner_select,
             model.serialPortList
         )
-        serialPortAdapter.setDropDownViewResource(R.layout.layout_main_serial_drop)
+        serialPortAdapter.setDropDownViewResource(R.layout.layout_main_spinner_drop)
         serialPortSpinner.adapter = serialPortAdapter
         serialPortSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -135,16 +134,32 @@ class MainActivity : AppCompatActivity(), Presenter,
         val serialParitySpinner = serialParamBinding.root.findViewById<Spinner>(R.id.serialParitySpinner)
         val serialParityAdapter = ArrayAdapter(
             this@MainActivity,
-            R.layout.layout_main_serial_select,
+            R.layout.layout_main_spinner_select,
             model.serialParityList
         )
-        serialParityAdapter.setDropDownViewResource(R.layout.layout_main_serial_drop)
+        serialParityAdapter.setDropDownViewResource(R.layout.layout_main_spinner_drop)
         serialParitySpinner.adapter = serialParityAdapter
         serialParitySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 model.connectionParamDao.value?.serialConnectionParam?.parity = model.serialParityList[position]
+            }
+        }
+
+        /* 初始化字符集下拉框 */
+        val charsetAdapter = ArrayAdapter(
+            this,
+            R.layout.layout_main_spinner_select,
+            MainViewModel.CHARSET_LIST
+        )
+        charsetAdapter.setDropDownViewResource(R.layout.layout_main_spinner_drop)
+        charsetSpinner.adapter = charsetAdapter
+        charsetSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                model.charSet.value = MainViewModel.CHARSET_LIST[position]
             }
         }
 
@@ -180,6 +195,17 @@ class MainActivity : AppCompatActivity(), Presenter,
     }
 
     /**
+     * 创建选项菜单
+     * @param menu Menu 菜单
+     * @return Boolean
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main_toolbar, menu)
+        return true
+    }
+
+
+    /**
      * View 点击处理
      * @param view View? view
      */
@@ -195,7 +221,6 @@ class MainActivity : AppCompatActivity(), Presenter,
             }
             R.id.sendButton -> model.sendMessage()
             R.id.atButton -> showConnectionListDialog()
-            R.id.disconnectButton -> model.disconnect()
         }
     }
 
@@ -207,6 +232,7 @@ class MainActivity : AppCompatActivity(), Presenter,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> drawerLayout.openDrawer(GravityCompat.START)
+            R.id.disconnect -> model.disconnect()
         }
         return true
     }

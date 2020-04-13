@@ -40,6 +40,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="8dp"
             android:text="@{item.msg}"
+            android:textIsSelectable="true"
             android:visibility="@{item.type == Type.RECEIVED ? View.VISIBLE : View.GONE}"
             tools:text="Received" />
 
@@ -54,6 +55,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="8dp"
             android:text="@{item.msg}"
+            android:textIsSelectable="true"
             android:visibility="@{item.type == Type.SEND ? View.VISIBLE : View.GONE}"
             tools:text="Send" />
 
