@@ -31,6 +31,7 @@ import com.letter.socketassistant.databinding.LayoutMainSerialConnectionParamBin
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
 import com.letter.socketassistant.utils.startActivity
+import com.letter.socketassistant.utils.toast
 import com.letter.socketassistant.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -300,14 +301,18 @@ class MainActivity : AppCompatActivity(), Presenter,
      * 显示连接列表
      */
     private fun showConnectionListDialog() {
-        MaterialDialog(this).show {
-            listItemsSingleChoice(
-                items = model.getConnectionNameList(),
-                initialSelection = model.selectedConnectionIndex.value ?: 0) {
-                dialog, index, _ ->
-                model.selectedConnectionIndex.value = index
-                dialog.dismiss()
+        if (model.getConnectionNameList().isNotEmpty()) {
+            MaterialDialog(this).show {
+                listItemsSingleChoice(
+                    items = model.getConnectionNameList(),
+                    initialSelection = model.selectedConnectionIndex.value ?: 0) {
+                        dialog, index, _ ->
+                    model.selectedConnectionIndex.value = index
+                    dialog.dismiss()
+                }
             }
+        } else {
+            toast(R.string.main_activity_toast_no_connection)
         }
     }
 }

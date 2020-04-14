@@ -22,6 +22,7 @@
     <string name="main_activity_extra_clear_when_send">Clear when send</string>
     <string name="main_activity_extra_charset">CharSet</string>
     <string name="main_activity_toolbar_disconnect">Disconnect</string>
+    <string name="main_activity_toast_no_connection">No Connection</string>
 
     <string name="esp_touch_activity_title">Esp Touch</string>
     <string name="esp_touch_activity_ssid">SSID:</string>

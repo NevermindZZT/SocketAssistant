@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.letter.serialport.SerialPortFinder
+import com.letter.socketassistant.R
 import com.letter.socketassistant.connection.*
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
@@ -54,7 +55,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     val serialPortList = SerialPortFinder().deviceNameList
     val serialParityList = listOf("N", "O", "E")
-    val selectedConnectionIndex = MutableLiveData(0)
+    val selectedConnectionIndex = MutableLiveData(-1)
     val hexTransmit = MutableLiveData(false)
     val hexReceive = MutableLiveData(false)
     val clearWhenSend = MutableLiveData(true)
@@ -66,10 +67,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
         selectedConnectionIndex.observeForever {
             title.value =
-                if (connectionList.value?.size ?: 0 > 0)
+                if (it >= 0)
                     connectionList.value?.get(it)?.name
                 else
                     "SocketAssistant"
+//                if (connectionList.value?.size ?: 0 > 0)
+//                    connectionList.value?.get(it)?.name
+//                else
+//                    "SocketAssistant"
         }
     }
 
@@ -170,6 +175,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * @param index Int 连接索引
      */
     fun disconnect(index: Int = selectedConnectionIndex.value ?: 0) {
+        if (index < 0) {
+            toast(R.string.main_activity_toast_no_connection)
+            return
+        }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 if (index < connectionList.value?.size ?: 0) {
@@ -195,6 +204,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             withContext(Dispatchers.Main) {
                 connectionList.value?.add(it)
                 toast("${it.name} connected")
+                if (selectedConnectionIndex.value == -1) {
+                    selectedConnectionIndex.value = 0;
+                }
             }
         }
     }
@@ -205,8 +217,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val onConnectionDisconnected : (AbstractConnection) -> Unit = {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
-                if (selectedConnectionIndex.value ?: 0 == connectionList.value?.size ?: 0 - 1) {
-                    selectedConnectionIndex.value = selectedConnectionIndex.value ?: 0 - 1
+                if (selectedConnectionIndex.value ?: -1 == (connectionList.value?.size ?: 0) - 1) {
+                    selectedConnectionIndex.value = (selectedConnectionIndex.value ?: 0) - 1
                 }
                 toast("${it.name} disconnected")
                 connectionList.value?.remove(it)

@@ -61,7 +61,7 @@ class UdpConnection constructor(private var remoteIp: String?,
     }
 
     override fun disconnect() {
-        super.disconnect()
         socket.close()
+        super.disconnect()
     }
 }

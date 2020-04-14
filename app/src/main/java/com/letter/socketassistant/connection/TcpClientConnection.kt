@@ -14,7 +14,7 @@ import java.net.Socket
  * @author Letter(nevermindzzt@gmail.com)
  * @since 1.0.0
  */
-class TcpClientConnection constructor(private val socket: Socket,
+class TcpClientConnection constructor(private var socket: Socket? = null,
                                       private val maxPacketLen: Int = 1024,
                                       private val packetTimeOut: Long = 100)
     : AbstractConnection() {
@@ -27,17 +27,24 @@ class TcpClientConnection constructor(private val socket: Socket,
                 remotePort: Int,
                 maxPacketLen: Int = 1024,
                 packetTimeOut: Long = 100)
-            : this(Socket(remoteIp, remotePort), maxPacketLen, packetTimeOut)
+            : this(maxPacketLen=maxPacketLen, packetTimeOut=packetTimeOut) {
+        try {
+            socket = Socket(remoteIp, remotePort)
+            name = "tcp client: ${socket?.port}"
+        } catch (e: Exception) {
+            onDisConnectedListener?.invoke(this)
+        }
+    }
 
     init {
-        name = "tcp client: ${socket.port}"
+        name = "tcp client: ${socket?.port}"
     }
 
     override fun send(connection: AbstractConnection, bytes: ByteArray?) {
         if (bytes == null) {
             return
         }
-        val outputStream = socket.getOutputStream()
+        val outputStream = socket?.getOutputStream() !!
         try {
             outputStream.write(bytes)
             outputStream.flush()
@@ -47,8 +54,8 @@ class TcpClientConnection constructor(private val socket: Socket,
     }
 
     override fun run() {
-        Log.d(TAG, "tcp client run: ${socket.port}")
-        val inputStream = socket.getInputStream()
+        Log.d(TAG, "tcp client run: ${socket?.port}")
+        val inputStream = socket?.getInputStream()
         val data = ByteArray(maxPacketLen)
         while (!isInterrupted) {
             try {
@@ -69,8 +76,8 @@ class TcpClientConnection constructor(private val socket: Socket,
 
     override fun disconnect() {
         super.disconnect()
-        socket.getOutputStream()?.close()
-        socket.close()
+        socket?.getOutputStream()?.close()
+        socket?.close()
         Log.d(TAG, "connection disconnect")
     }
 }
