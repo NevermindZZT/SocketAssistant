@@ -30,14 +30,14 @@ class TcpClientConnection constructor(private var socket: Socket? = null,
             : this(maxPacketLen=maxPacketLen, packetTimeOut=packetTimeOut) {
         try {
             socket = Socket(remoteIp, remotePort)
-            name = "tcp client: ${socket?.port}"
+            name = "tcp client: ${socket?.inetAddress?.hostAddress}:${socket?.port}"
         } catch (e: Exception) {
             onDisConnectedListener?.invoke(this)
         }
     }
 
     init {
-        name = "tcp client: ${socket?.port}"
+        name = "tcp client: ${socket?.inetAddress?.hostAddress}:${socket?.port}"
     }
 
     override fun send(connection: AbstractConnection, bytes: ByteArray?) {
