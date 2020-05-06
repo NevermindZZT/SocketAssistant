@@ -58,7 +58,7 @@ static speed_t getBaudrate(jint baudrate)
 JNIEXPORT jobject JNICALL
 Java_com_letter_serialport_SerialPort_serialOpen(JNIEnv *env, jobject thiz, jstring path,
                                                  jint baud_rate, jint flags, jint data_bits,
-                                                 jstring parity, jint stop_bits) {
+                                                 jint parity, jint stop_bits) {
     int fd;
     speed_t speed;
     jobject mFileDescriptor;
@@ -107,40 +107,40 @@ Java_com_letter_serialport_SerialPort_serialOpen(JNIEnv *env, jobject thiz, jstr
         cfsetospeed(&cfg, speed);
 
         switch (data_bits) {
+            case 5:
+                cfg.c_cflag |= CS5;
+                break;
+            case 6:
+                cfg.c_cflag |= CS6;
+                break;
             case 7:
                 cfg.c_cflag |= CS7;
                 break;
             case 8:
                 cfg.c_cflag |= CS8;
                 break;
+            default:
+                break;
         }
 
-        const char *buff;
-        jboolean isCopy;
-        buff = (*env)->GetStringUTFChars(env, parity, &isCopy);
-        if (buff != NULL)
+        switch (parity)
         {
-            switch (buff[0])
-            {
-                case 'o':
-                case 'O':
-                    cfg.c_cflag |= PARENB;
-                    cfg.c_cflag |= PARODD;
-                    cfg.c_iflag |= (INPCK | ISTRIP);
-                    break;
-                case 'e':
-                case 'E':
-                    cfg.c_cflag |= PARENB;
-                    cfg.c_cflag &= ~PARODD;
-                    cfg.c_iflag |= (INPCK | ISTRIP);
-                    break;
-                case 'n':
-                case 'N':
-                    cfg.c_cflag &= ~PARENB;
-                    break;
-            }
+            case 0:
+                cfg.c_cflag &= ~PARENB;
+                break;
+            case 1:
+                cfg.c_cflag |= PARENB;
+                cfg.c_cflag |= PARODD;
+                cfg.c_iflag |= (INPCK | ISTRIP);
+                break;
+            case 2:
+                cfg.c_cflag |= PARENB;
+                cfg.c_cflag &= ~PARODD;
+                cfg.c_iflag |= (INPCK | ISTRIP);
+                break;
+            default:
+                break;
         }
-        (*env)->ReleaseStringUTFChars(env, parity, buff);
 
         switch (stop_bits) {
             case 1:
@@ -148,6 +148,8 @@ Java_com_letter_serialport_SerialPort_serialOpen(JNIEnv *env, jobject thiz, jstr
                 break;
             case 2:
                 cfg.c_cflag |= CSTOPB;
+                break;
+            default:
                 break;
         }
 

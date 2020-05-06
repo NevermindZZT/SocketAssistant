@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">网络调试助手</string>
+
+    <string name="main_activity_nav_tcp_server">Tcp 服务</string>
+    <string name="main_activity_nav_tcp_client">Tcp 客户端</string>
+    <string name="main_activity_nav_udp">Udp</string>
+    <string name="main_activity_nav_serial">串口</string>
+    <string name="main_activity_nav_esp_touch">Esp Touch</string>
+    <string name="main_activity_nav_about">关于</string>
+    <string name="main_activity_net_param_remote_ip">远程IP</string>
+    <string name="main_activity_net_param_remote_port">远程端口</string>
+    <string name="main_activity_net_param_local_port">本地端口</string>
+    <string name="main_activity_serial_param_port">串口</string>
+    <string name="main_activity_serial_param_baud_rate">波特率</string>
+    <string name="main_activity_serial_param_data_bits">数据位</string>
+    <string name="main_activity_serial_param_parity">校验</string>
+    <string name="main_activity_serial_param_stop_bits">停止位</string>
+    <string name="main_activity_dialog_confirm">确认</string>
+    <string name="main_activity_extra_disconnect">断开连接</string>
+    <string name="main_activity_extra_hex_transmit">16进制发送</string>
+    <string name="main_activity_extra_hex_receive">16进制接收</string>
+    <string name="main_activity_extra_clear_when_send">发送后清除输入</string>
+    <string name="main_activity_extra_charset">字符集</string>
+    <string name="main_activity_toolbar_disconnect">断开连接</string>
+    <string name="main_activity_toast_no_connection">无有效连接</string>
+
+    <string name="esp_touch_activity_title">Esp Touch</string>
+    <string name="esp_touch_activity_ssid">SSID:</string>
+    <string name="esp_touch_activity_bssid">BSSID:</string>
+    <string name="esp_touch_activity_ssid_hint">没有WiFi连接</string>
+    <string name="esp_touch_activity_password">密码:</string>
+    <string name="esp_touch_activity_password_hint">请输入密码</string>
+    <string name="esp_touch_activity_device_count">设备数:</string>
+    <string name="esp_touch_activity_device_count_hint">请输入设备数</string>
+    <string name="esp_touch_activity_broadcast">广播</string>
+    <string name="esp_touch_activity_multicast">多播</string>
+    <string name="esp_touch_activity_confirm_button">确认</string>
+    <string name="esp_touch_activity_5G_wifi_not_supported">不支持5G WiFi</string>
+    <string name="esp_touch_activity_dialog_configuring">Esp Touch 配置中，请稍等...</string>
+    <string name="esp_touch_activity_dialog_start_fail">创建Esp Touch任务失败</string>
+    <string name="esp_touch_activity_dialog_config_fail">Esp Touch 配置失败</string>
+    <string name="esp_touch_activity_dialog_success_item">BSSID = %s, InetAddress = %s\n</string>
+    <string name="esp_touch_activity_dialog_negative_button">取消</string>
+    <string name="esp_touch_activity_dialog_positive_button">确认</string>
+
+    <string name="about_activity_title">关于</string>
+    <string name="about_activity_open_source_text">Github</string>
+    <string name="about_activity_open_source_address">https://github.com/NevermindZZT/SocketAssistant</string>
+    <string name="about_activity_copyright_text">© 2020 Letter All rights reserved</string>
+</resources>

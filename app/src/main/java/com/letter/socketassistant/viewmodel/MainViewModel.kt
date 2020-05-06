@@ -8,11 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.NetworkUtils
+import com.hoho.android.usbserial.driver.UsbSerialDriver
 import com.letter.serialport.SerialPortFinder
 import com.letter.socketassistant.R
 import com.letter.socketassistant.connection.*
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
+import com.letter.socketassistant.utils.getContext
 import com.letter.socketassistant.utils.toHexByteArray
 import com.letter.socketassistant.utils.toHexString
 import com.letter.socketassistant.utils.toast
@@ -53,8 +55,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val connectionList by lazy {
         MutableLiveData<MutableList<AbstractConnection>>(mutableListOf())
     }
-    val serialPortList = SerialPortFinder().deviceNameList
-    val serialParityList = listOf("N", "O", "E")
+    private lateinit var usbSerialDrivers: List<UsbSerialDriver>
+    val serialPortList = mutableListOf<String>()
+    val serialParityList = listOf("NONE", "ODD", "EVEN")
     val selectedConnectionIndex = MutableLiveData(-1)
     val hexTransmit = MutableLiveData(false)
     val hexReceive = MutableLiveData(false)
@@ -71,10 +74,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     connectionList.value?.get(it)?.name
                 else
                     "SocketAssistant"
-//                if (connectionList.value?.size ?: 0 > 0)
-//                    connectionList.value?.get(it)?.name
-//                else
-//                    "SocketAssistant"
+        }
+    }
+
+    /**
+     * 刷新串口列表
+     */
+    fun refreshSerialPort() {
+        usbSerialDrivers = UsbSerialConnection.getDrivers(getContext())
+        serialPortList.clear()
+        serialPortList.addAll(SerialPortFinder().deviceNameList)
+        for (device in usbSerialDrivers) {
+            serialPortList.add(device.device.deviceName)
         }
     }
 
@@ -151,13 +162,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         )
                     }
                     ConnectionParamDao.Type.SERIAL -> {
-                        connection = SerialConnection(
-                            connectionParamDao.value?.serialConnectionParam?.port ?: "",
-                            connectionParamDao.value?.serialConnectionParam?.baudRate?.toInt() ?: 0,
-                            connectionParamDao.value?.serialConnectionParam?.dataBits?.toInt() ?: 0,
-                            connectionParamDao.value?.serialConnectionParam?.parity ?: "",
-                            connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0
-                        )
+                        val portName = connectionParamDao.value?.serialConnectionParam?.port
+                        if (portName != null) {
+                            for (port in SerialPortFinder().deviceNameList) {
+                                if (portName == port) {
+                                    connection = SerialConnection(
+                                        portName,
+                                        connectionParamDao.value?.serialConnectionParam?.baudRate?.toInt() ?: 0,
+                                        connectionParamDao.value?.serialConnectionParam?.dataBits?.toInt() ?: 0,
+                                        parserParity(connectionParamDao.value?.serialConnectionParam?.parity),
+                                        connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0
+                                    )
+                                    break
+                                }
+                            }
+                            for (driver in usbSerialDrivers) {
+                                if (portName == driver.device.deviceName) {
+                                    connection = UsbSerialConnection(
+                                        getContext(),
+                                        driver,
+                                        connectionParamDao.value?.serialConnectionParam?.baudRate?.toInt() ?: 0,
+                                        connectionParamDao.value?.serialConnectionParam?.dataBits?.toInt() ?: 0,
+                                        parserParity(connectionParamDao.value?.serialConnectionParam?.parity),
+                                        connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0
+                                    )
+                                }
+                                break
+                            }
+                        }
                     }
                 }
                 connection?.apply {
@@ -246,4 +278,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+}
+
+/**
+ * 解析串口校验参数
+ * @param parity String 参数
+ * @return Int 数值
+ */
+private fun parserParity(parity: String?) = when (parity) {
+    "ODD" -> 1
+    "EVEN" -> 2
+    else -> 0
 }

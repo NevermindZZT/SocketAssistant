@@ -19,7 +19,20 @@ import java.lang.Exception
 class SerialPort {
 
     companion object {
-        private val TAG = "SerialPort"
+        private const val TAG = "SerialPort"
+
+        const val STOP_BITS_1 = 1
+        const val STOP_BITS_2 = 2
+        const val STOP_BITS_1_5 = 3
+
+        const val DATA_BIT_5 = 5
+        const val DATA_BIT_6 = 6
+        const val DATA_BIT_7 = 7
+        const val DATA_BIT_8 = 8
+
+        const val PARITY_NONE = 0
+        const val PARITY_ODD = 1
+        const val PARITY_EVEN = 2
     }
 
     private var mFd: FileDescriptor ?= null
@@ -34,7 +47,7 @@ class SerialPort {
                                     baudRate: Int,
                                     flags: Int,
                                     dataBits: Int,
-                                    parity: String,
+                                    parity: Int,
                                     stopBits: Int): FileDescriptor
 
     private external fun serialClose()
@@ -52,9 +65,9 @@ class SerialPort {
     fun open(path: String,
              baudRate: Int = 115200,
              flags: Int = 0,
-             dataBits: Int = 8,
-             parity: String = "N",
-             stopBits: Int = 1): Boolean {
+             dataBits: Int = DATA_BIT_8,
+             parity: Int = PARITY_NONE,
+             stopBits: Int = STOP_BITS_1): Boolean {
         val device = File(path)
         if (!device.canRead() || !device.canWrite()) {
             try {

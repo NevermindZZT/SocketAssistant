@@ -21,9 +21,9 @@ import com.letter.socketassistant.utils.tryRead
  */
 class SerialConnection constructor(private val path: String,
                                    private val baudRate: Int = 115200,
-                                   private val dataBits: Int = 8,
-                                   private val parity: String = "N",
-                                   private val stopBits: Int = 1,
+                                   private val dataBits: Int = SerialPort.DATA_BIT_8,
+                                   private val parity: Int = SerialPort.PARITY_NONE,
+                                   private val stopBits: Int = SerialPort.STOP_BITS_1,
                                    private val maxPacketLen: Int = 1024,
                                    private val packetTimeOut: Long = 100)
     : AbstractConnection() {

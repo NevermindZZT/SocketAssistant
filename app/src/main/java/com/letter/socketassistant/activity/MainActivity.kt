@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity(), Presenter,
     }
     private lateinit var netParamBinding : LayoutMainNetConnectionParamBinding
     private lateinit var serialParamBinding : LayoutMainSerialConnectionParamBinding
+    private lateinit var serialPortAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +117,7 @@ class MainActivity : AppCompatActivity(), Presenter,
 
         /* 初始化串口端口下拉框 */
         val serialPortSpinner = serialParamBinding.root.findViewById<Spinner>(R.id.serialPortSpinner)
-        val serialPortAdapter = ArrayAdapter(
+        serialPortAdapter = ArrayAdapter(
             this@MainActivity,
             R.layout.layout_main_spinner_select,
             model.serialPortList
@@ -283,6 +284,8 @@ class MainActivity : AppCompatActivity(), Presenter,
      * @param titleRes Int 标题资源 id
      */
     private fun showParamDialog(type: ConnectionParamDao.Type, titleRes: Int) {
+        model.refreshSerialPort()
+        serialPortAdapter.notifyDataSetChanged()
         model.connectionParamDao.value?.type = type
         netParamBinding.vm = model
         serialParamBinding.vm = model

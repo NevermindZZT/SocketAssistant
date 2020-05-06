@@ -11,8 +11,8 @@ android {
         applicationId "com.letter.socketassistant2"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 10000
-        versionName "1.0.0 "
+        versionCode 10001
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -76,4 +76,5 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
     implementation project(path: ':serialport')
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation 'com.github.mik3y:usb-serial-for-android:2.2.2'
 }
