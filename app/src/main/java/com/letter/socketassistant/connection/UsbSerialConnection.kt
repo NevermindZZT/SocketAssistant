@@ -8,8 +8,20 @@ import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialProber
 
 /**
- * @author Letter(zhangkeqiang@ut.cn)
- * @version 1.0
+ * USB转串口连接
+ * @property context Context context
+ * @property driver UsbSerialDriver USB串口driver
+ * @property baudRate Int 波特率
+ * @property dataBits Int 数据位
+ * @property parity Int 校验
+ * @property stopBits Int 停止位
+ * @property maxPacketLen Int 最大包长度
+ * @property packetTimeOut Long 包超时
+ * @property port UsbSerialPort? USB串口端口
+ * @constructor 构造一个USB串口连接
+ *
+ * @author Letter(NevermindZZT@gmail.com)
+ * @since 1.0.1
  */
 class UsbSerialConnection constructor(private val context: Context,
                                       private val driver: UsbSerialDriver,

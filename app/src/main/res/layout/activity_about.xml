@@ -18,7 +18,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Light"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"  />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/about_activity_title"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,7 +37,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_launcher_foreground" />
+            app:srcCompat="@mipmap/ic_launcher_foreground"
+            tools:ignore="contentDescription"/>
 
         <TextView
             android:id="@+id/textView8"
@@ -74,12 +76,23 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:id="@+id/githubText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/about_activity_github_text"
+            android:textColor="@color/textColorHint"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/openSourceText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
             android:id="@+id/openSourceText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/about_activity_open_source_text"
-            android:textColor="@color/textColorHint"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/textView13"
             app:layout_constraintEnd_toEndOf="parent"

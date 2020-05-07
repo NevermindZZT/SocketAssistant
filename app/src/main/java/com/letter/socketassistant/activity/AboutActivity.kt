@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import com.letter.socketassistant.BuildConfig
 import com.letter.socketassistant.R
+import com.letter.socketassistant.utils.startActivity
 import kotlinx.android.synthetic.main.activity_about.*
 
 /**
@@ -28,14 +29,16 @@ class AboutActivity : AppCompatActivity() {
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.about_activity_title)
 
         versionText.text = BuildConfig.VERSION_NAME
 
-        openSourceText.setOnClickListener {
+        githubText.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(getString(R.string.about_activity_open_source_address))
             startActivity(intent)
+        }
+        openSourceText.setOnClickListener {
+            startActivity(OpenSourceActivity::class.java)
         }
     }
 

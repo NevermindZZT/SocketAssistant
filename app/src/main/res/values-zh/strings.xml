@@ -44,7 +44,10 @@
     <string name="esp_touch_activity_dialog_positive_button">确认</string>
 
     <string name="about_activity_title">关于</string>
-    <string name="about_activity_open_source_text">Github</string>
+    <string name="about_activity_github_text">Github</string>
+    <string name="about_activity_open_source_text">开源相关</string>
     <string name="about_activity_open_source_address">https://github.com/NevermindZZT/SocketAssistant</string>
     <string name="about_activity_copyright_text">© 2020 Letter All rights reserved</string>
+
+    <string name="open_source_activity_title">开源相关</string>
 </resources>
