@@ -152,7 +152,7 @@ class EspTouchViewModel(application: Application) : AndroidViewModel(application
             if (result[0].isCancelled) {
                 return
             }
-            if (result[0].isSuc) {
+            if (!result[0].isSuc) {
                 configMessage.value = getString(R.string.esp_touch_activity_dialog_config_fail)
                 return
             }

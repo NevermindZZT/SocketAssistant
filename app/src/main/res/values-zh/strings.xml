@@ -36,7 +36,7 @@
     <string name="esp_touch_activity_multicast">多播</string>
     <string name="esp_touch_activity_confirm_button">确认</string>
     <string name="esp_touch_activity_5G_wifi_not_supported">不支持5G WiFi</string>
-    <string name="esp_touch_activity_dialog_configuring">Esp Touch 配置中，请稍等...</string>
+    <string name="esp_touch_activity_dialog_configuring">Esp Touch 配置中，请稍等&#8230;</string>
     <string name="esp_touch_activity_dialog_start_fail">创建Esp Touch任务失败</string>
     <string name="esp_touch_activity_dialog_config_fail">Esp Touch 配置失败</string>
     <string name="esp_touch_activity_dialog_success_item">BSSID = %s, InetAddress = %s\n</string>
