@@ -38,5 +38,9 @@ class OpenSourceViewModel(application: Application) : AndroidViewModel(applicati
             "mik3y",
             "https://github.com/mik3y/usb-serial-for-android",
             "Android USB host serial driver library for CDC, FTDI, Arduino and other devices."))
+        openSourceList.add(OpenSourceDao("EsptouchForAndroid",
+            "EspressifApp",
+            "https://github.com/EspressifApp/EsptouchForAndroid",
+            "EspTouch is one way for Android Phone to tell the connected Router's Ssid, Password and etc. to make IOT devices to connect to the same Router."))
     }
 }
