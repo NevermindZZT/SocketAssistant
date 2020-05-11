@@ -6,6 +6,7 @@ import android.util.Log
 import com.hoho.android.usbserial.driver.UsbSerialDriver
 import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialProber
+import java.nio.charset.Charset
 
 /**
  * USB转串口连接
@@ -68,11 +69,27 @@ class UsbSerialConnection constructor(private val context: Context,
         port?.open(connection)
         port?.setParameters(baudRate, dataBits, stopBits, parity)
         val data = ByteArray(maxPacketLen)
+        val buffer = ByteArray(maxPacketLen)
+        var time = 0L
         while (!isInterrupted) {
             try {
-                val length = port?.read(data, packetTimeOut.toInt())
-                if (length != null && length > 0) {
-                    onReceivedListener?.invoke(this, data.sliceArray(IntRange(0, length - 1)))
+                var length = 0
+                time = System.currentTimeMillis()
+                while (System.currentTimeMillis() - time < packetTimeOut) {
+                    val len = port?.read(data, packetTimeOut.toInt()) ?: 0
+                    if (len > 0) {
+                        for (i in 0 until len) {
+                            buffer[length++] = data[i]
+                            if (length >= maxPacketLen) {
+                                onReceivedListener?.invoke(this, buffer.sliceArray(IntRange(0, length - 1)))
+                                length = 0
+                            }
+                        }
+                        time = System.currentTimeMillis()
+                    }
+                }
+                if (length > 0) {
+                    onReceivedListener?.invoke(this, buffer.sliceArray(IntRange(0, length - 1)))
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "", e)

@@ -98,12 +98,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 connectionList.value?.get(selectedConnectionIndex.value ?: 0) else null
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
-                    connection?.send(
-                        if (hexTransmit.value != true)
-                            inputText.value?.toByteArray(Charset.forName(charSet.value))
-                        else
-                            inputText.value?.toHexByteArray()
-                    )
+                    try {
+                        connection?.send(
+                            if (hexTransmit.value != true)
+                                inputText.value?.toByteArray(Charset.forName(charSet.value))
+                            else
+                                inputText.value?.toHexByteArray()
+                        )
+                    } catch (e: Exception) {
+                        Log.e(TAG, "", e)
+                    }
                 }
             }
             messageList.add(
