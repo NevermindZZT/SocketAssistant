@@ -62,6 +62,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val hexTransmit = MutableLiveData(false)
     val hexReceive = MutableLiveData(false)
     val clearWhenSend = MutableLiveData(true)
+    val lineWrap = MutableLiveData(false)
     val charSet = MutableLiveData(CHARSET_LIST[0])
 
     init {
@@ -99,11 +100,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             viewModelScope.launch {
                 withContext(Dispatchers.IO) {
                     try {
+                        var text = inputText.value!!
+                        if (lineWrap.value!!) {
+                            text += if (hexTransmit.value!!) " 0D 0A"  else "\r\n"
+                        }
                         connection?.send(
                             if (hexTransmit.value != true)
-                                inputText.value?.toByteArray(Charset.forName(charSet.value))
+                                text.toByteArray(Charset.forName(charSet.value))
                             else
-                                inputText.value?.toHexByteArray()
+                                text.toHexByteArray()
                         )
                     } catch (e: Exception) {
                         Log.e(TAG, "", e)

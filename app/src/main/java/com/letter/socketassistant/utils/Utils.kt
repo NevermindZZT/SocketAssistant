@@ -110,7 +110,13 @@ fun String.toHexByteArray(delimiters: String = " "): ByteArray {
     val byteList = mutableListOf<Byte>()
     val words = split(delimiters)
     words.forEach {
-        byteList.add(it.toInt(16).toByte())
+        if (it.isNotEmpty()) {
+            try {
+                byteList.add(it.toInt(16).toByte())
+            } catch (e: Exception) {
+                Log.w(TAG, "", e)
+            }
+        }
     }
     return byteList.toByteArray()
 }

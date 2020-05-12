@@ -20,6 +20,7 @@
     <string name="main_activity_extra_hex_transmit">16进制发送</string>
     <string name="main_activity_extra_hex_receive">16进制接收</string>
     <string name="main_activity_extra_clear_when_send">发送后清除输入</string>
+    <string name="main_activity_extra_line_wrap">换行</string>
     <string name="main_activity_extra_charset">字符集</string>
     <string name="main_activity_toolbar_disconnect">断开连接</string>
     <string name="main_activity_toast_no_connection">无有效连接</string>

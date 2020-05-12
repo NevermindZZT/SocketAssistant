@@ -172,6 +172,17 @@
                             app:layout_constraintStart_toEndOf="@+id/hexTransmitButton"
                             app:layout_constraintTop_toTopOf="@+id/hexTransmitButton" />
 
+                        <CheckBox
+                            android:id="@+id/lineWrapButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={vm.lineWrap}"
+                            android:text="@string/main_activity_extra_line_wrap"
+                            android:textColor="@color/textColorPrimary"
+                            app:layout_constraintBottom_toBottomOf="@+id/clearWhenSendButton"
+                            app:layout_constraintStart_toStartOf="@+id/hexReceiveButton"
+                            app:layout_constraintTop_toTopOf="@+id/clearWhenSendButton" />
+
                         <TextView
                             android:id="@+id/textView4"
                             android:layout_width="wrap_content"
