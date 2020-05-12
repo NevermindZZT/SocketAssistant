@@ -26,6 +26,8 @@
     <string name="main_activity_extra_charset">CharSet</string>
     <string name="main_activity_toolbar_disconnect">Disconnect</string>
     <string name="main_activity_toast_no_connection">No Connection</string>
+    <string name="main_activity_toast_connection_connect">%s connected</string>
+    <string name="main_activity_toast_connection_disconnect">%s disconnected</string>
 
     <string name="esp_touch_activity_title">Esp Touch</string>
     <string name="esp_touch_activity_ssid">SSID:</string>

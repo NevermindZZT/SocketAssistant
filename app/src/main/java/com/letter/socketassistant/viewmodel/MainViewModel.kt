@@ -246,9 +246,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
                 connectionList.value?.add(it)
-                toast("${it.name} connected")
+                toast(String.format(getString(R.string.main_activity_toast_connection_connect), it.name))
                 if (selectedConnectionIndex.value == -1) {
-                    selectedConnectionIndex.value = 0;
+                    selectedConnectionIndex.value = 0
                 }
             }
         }
@@ -263,7 +263,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 if (selectedConnectionIndex.value ?: -1 == (connectionList.value?.size ?: 0) - 1) {
                     selectedConnectionIndex.value = (selectedConnectionIndex.value ?: 0) - 1
                 }
-                toast("${it.name} disconnected")
+                toast(String.format(getString(R.string.main_activity_toast_connection_disconnect), it.name))
                 connectionList.value?.remove(it)
             }
         }
