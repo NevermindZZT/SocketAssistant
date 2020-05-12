@@ -26,7 +26,11 @@
             android:icon="@drawable/ic_main_nav_esp_touch"
             android:title="@string/main_activity_nav_esp_touch" />
     </group>
-    <group >
+    <group>
+        <item
+            android:id="@+id/main_nav_setting"
+            android:icon="@drawable/ic_main_nav_setting"
+            android:title="@string/main_activity_nav_setting" />
         <item
             android:id="@+id/main_nav_about"
             android:icon="@drawable/ic_main_nav_about"

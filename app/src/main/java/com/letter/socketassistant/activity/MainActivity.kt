@@ -256,6 +256,8 @@ class MainActivity : AppCompatActivity(), Presenter,
                 showParamDialog(ConnectionParamDao.Type.SERIAL, R.string.main_activity_nav_serial)
             R.id.main_nav_esp_touch ->
                 startActivity(EspTouchActivity::class.java)
+            R.id.main_nav_setting ->
+                startActivity(SettingActivity::class.java)
             R.id.main_nav_about ->
                 startActivity(AboutActivity::class.java)
         }

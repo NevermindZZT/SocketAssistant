@@ -1,12 +1,15 @@
 package com.letter.socketassistant.connection
 
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.hardware.usb.UsbManager
 import android.util.Log
 import com.hoho.android.usbserial.driver.UsbSerialDriver
 import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialProber
-import java.nio.charset.Charset
 
 /**
  * USB转串口连接
@@ -37,6 +40,8 @@ class UsbSerialConnection constructor(private val context: Context,
     companion object {
         private const val TAG = "UsbSerialConnection"
 
+        private const val ACTION_USB_PERMISSION = "com.letter.socketassistant.connection.USB_PERMISSION"
+
         /**
          * 获取所有USB 串口设备
          * @param context Context context
@@ -50,6 +55,21 @@ class UsbSerialConnection constructor(private val context: Context,
 
     private var port: UsbSerialPort ?= null
 
+    private val usbPermissionReceiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (ACTION_USB_PERMISSION == intent?.action) {
+                context?.unregisterReceiver(this)
+                if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                    this@UsbSerialConnection.start()
+                    this@UsbSerialConnection.onConnectedListener?.invoke(this@UsbSerialConnection)
+                } else {
+                    this@UsbSerialConnection.onDisConnectedListener?.invoke(this@UsbSerialConnection)
+                }
+            }
+        }
+
+    }
+
     init {
         name = "usb serial: ${driver.device.deviceName}"
     }
@@ -60,6 +80,10 @@ class UsbSerialConnection constructor(private val context: Context,
 
     override fun run() {
         val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
+        if (!usbManager.hasPermission(driver.device)) {
+            onDisConnectedListener?.invoke(this)
+            return
+        }
         val connection = usbManager.openDevice(driver.device)
         if (connection == null) {
             onDisConnectedListener?.invoke(this)
@@ -70,7 +94,7 @@ class UsbSerialConnection constructor(private val context: Context,
         port?.setParameters(baudRate, dataBits, stopBits, parity)
         val data = ByteArray(maxPacketLen)
         val buffer = ByteArray(maxPacketLen)
-        var time = 0L
+        var time: Long
         while (!isInterrupted) {
             try {
                 var length = 0
@@ -97,6 +121,22 @@ class UsbSerialConnection constructor(private val context: Context,
             }
         }
         onDisConnectedListener?.invoke(this)
+    }
+
+    override fun connect() {
+        val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
+        if (!usbManager.hasPermission(driver.device)) {
+            val intentFilter = IntentFilter(ACTION_USB_PERMISSION)
+            context.registerReceiver(usbPermissionReceiver, intentFilter)
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                0,
+                Intent(ACTION_USB_PERMISSION),
+                0)
+            usbManager.requestPermission(driver.device, pendingIntent)
+        } else {
+            super.connect()
+        }
     }
 
     override fun disconnect() {

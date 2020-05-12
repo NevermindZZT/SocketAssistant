@@ -6,6 +6,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.hoho.android.usbserial.driver.UsbSerialDriver
@@ -14,10 +15,7 @@ import com.letter.socketassistant.R
 import com.letter.socketassistant.connection.*
 import com.letter.socketassistant.model.local.ConnectionParamDao
 import com.letter.socketassistant.model.local.MessageDao
-import com.letter.socketassistant.utils.getContext
-import com.letter.socketassistant.utils.toHexByteArray
-import com.letter.socketassistant.utils.toHexString
-import com.letter.socketassistant.utils.toast
+import com.letter.socketassistant.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -67,14 +65,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         viewModelScope.launch {
-            localIp.value = "Local IP: ${getLocalIp()}"
+            localIp.value = String.format(getString(R.string.main_activity_local_ip), getLocalIp())
         }
         selectedConnectionIndex.observeForever {
             title.value =
                 if (it >= 0)
                     connectionList.value?.get(it)?.name
                 else
-                    "SocketAssistant"
+                    getString(R.string.app_name)
         }
     }
 
@@ -160,14 +158,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     ConnectionParamDao.Type.TCP_CLIENT -> {
                         connection = TcpClientConnection(
                             connectionParamDao.value?.netConnectionParam?.remoteIp,
-                            connectionParamDao.value?.netConnectionParam?.remotePort?.toInt() ?: 0
+                            connectionParamDao.value?.netConnectionParam?.remotePort?.toInt() ?: 0,
+                            maxPacketLen = getMaxPackageLen()
                         )
                     }
                     ConnectionParamDao.Type.UDP -> {
                         connection = UdpConnection(
                             connectionParamDao.value?.netConnectionParam?.remoteIp,
                             connectionParamDao.value?.netConnectionParam?.remotePort?.toInt() ?: 0,
-                            connectionParamDao.value?.netConnectionParam?.localPort?.toInt() ?: 0
+                            connectionParamDao.value?.netConnectionParam?.localPort?.toInt() ?: 0,
+                            maxPacketLen = getMaxPackageLen()
                         )
                     }
                     ConnectionParamDao.Type.SERIAL -> {
@@ -180,7 +180,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                                         connectionParamDao.value?.serialConnectionParam?.baudRate?.toInt() ?: 0,
                                         connectionParamDao.value?.serialConnectionParam?.dataBits?.toInt() ?: 0,
                                         parserParity(connectionParamDao.value?.serialConnectionParam?.parity),
-                                        connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0
+                                        connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0,
+                                        maxPacketLen = getMaxPackageLen()
                                     )
                                     break
                                 }
@@ -193,7 +194,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                                         connectionParamDao.value?.serialConnectionParam?.baudRate?.toInt() ?: 0,
                                         connectionParamDao.value?.serialConnectionParam?.dataBits?.toInt() ?: 0,
                                         parserParity(connectionParamDao.value?.serialConnectionParam?.parity),
-                                        connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0
+                                        connectionParamDao.value?.serialConnectionParam?.stopBits?.toInt() ?: 0,
+                                        maxPacketLen = getMaxPackageLen()
                                     )
                                 }
                                 break
@@ -287,6 +289,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    /**
+     * 获取最大包长
+     * @return Int 包长
+     */
+    private fun getMaxPackageLen() =
+        PreferenceManager
+            .getDefaultSharedPreferences(getContext())
+            .getString("max_package_len", "1024")?.toInt() ?: 1024
+
 }
 
 /**
@@ -299,3 +311,4 @@ private fun parserParity(parity: String?) = when (parity) {
     "EVEN" -> 2
     else -> 0
 }
+

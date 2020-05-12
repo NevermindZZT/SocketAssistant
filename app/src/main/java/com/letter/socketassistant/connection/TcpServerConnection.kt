@@ -13,7 +13,8 @@ import java.net.ServerSocket
  * @author Letter(nevermindzzt@gmail.com)
  * @since 1.0.0
  */
-class TcpServerConnection constructor(private var localPort: Int)
+class TcpServerConnection constructor(private var localPort: Int,
+                                      private val maxPacketLen: Int = 1024)
     : AbstractConnection() {
 
     companion object {
@@ -37,7 +38,7 @@ class TcpServerConnection constructor(private var localPort: Int)
         while (!isInterrupted) {
             try {
                 val client = socket.accept()
-                val connection = TcpClientConnection(client)
+                val connection = TcpClientConnection(client, maxPacketLen = maxPacketLen)
                 connection.apply {
                     onReceivedListener = this@TcpServerConnection.onReceivedListener
                     onConnectedListener = this@TcpServerConnection.onConnectedListener

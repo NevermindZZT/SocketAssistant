@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">网络调试助手</string>
 
+    <string name="main_activity_local_ip">本地IP: %s</string>
     <string name="main_activity_nav_tcp_server">Tcp 服务</string>
     <string name="main_activity_nav_tcp_client">Tcp 客户端</string>
     <string name="main_activity_nav_udp">Udp</string>
     <string name="main_activity_nav_serial">串口</string>
     <string name="main_activity_nav_esp_touch">Esp Touch</string>
+    <string name="main_activity_nav_setting">设置</string>
     <string name="main_activity_nav_about">关于</string>
     <string name="main_activity_net_param_remote_ip">远程IP</string>
     <string name="main_activity_net_param_remote_port">远程端口</string>
@@ -50,5 +52,10 @@
     <string name="about_activity_open_source_address">https://github.com/NevermindZZT/SocketAssistant</string>
     <string name="about_activity_copyright_text">© 2020 Letter All rights reserved</string>
 
+    <string name="setting_activity_title">设置</string>
+
     <string name="open_source_activity_title">开源相关</string>
+
+    <string name="setting_max_package_length_title">最大包长</string>
+    <string name="setting_max_package_length_summary">接收数据时，最大的包长度</string>
 </resources>

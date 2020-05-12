@@ -12,6 +12,8 @@
         <item name="md_corner_radius">8dp</item>
         <item name="md_color_title">@color/textColorPrimary</item>
         <item name="md_color_button_text">@color/colorAccent</item>
+
+        <item name="dialogCornerRadius">8dp</item>
     </style>
 
 </resources>

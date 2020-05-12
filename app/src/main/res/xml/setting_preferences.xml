@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="max_package_len"
+        android:title="@string/setting_max_package_length_title"
+        android:summary="@string/setting_max_package_length_summary"
+        android:defaultValue="1024"
+        android:inputType="number"/>
+</PreferenceScreen>

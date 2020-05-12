@@ -11,8 +11,8 @@ android {
         applicationId "com.letter.socketassistant2"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 10003
-        versionName "1.0.3"
+        versionCode 10004
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -70,6 +70,7 @@ dependencies {
 
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:$arch_version"
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.google.android.material:material:1.1.0'
 
     implementation 'com.blankj:utilcodex:1.26.0'
