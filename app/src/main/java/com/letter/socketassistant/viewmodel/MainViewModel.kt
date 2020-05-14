@@ -65,7 +65,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         viewModelScope.launch {
-            localIp.value = String.format(getString(R.string.main_activity_local_ip), getLocalIp())
+            localIp.value = getString(R.string.main_activity_local_ip).format(getLocalIp())
         }
         selectedConnectionIndex.observeForever {
             title.value =
@@ -84,7 +84,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         serialPortList.clear()
         serialPortList.addAll(SerialPortFinder().deviceNameList)
         for (device in usbSerialDrivers) {
-            serialPortList.add(String.format("%s(%s)", device.device.productName, device.device.deviceName))
+            serialPortList.add("%s(%s)".format(device.device.productName, device.device.deviceName))
         }
     }
 
@@ -246,7 +246,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
                 connectionList.value?.add(it)
-                toast(String.format(getString(R.string.main_activity_toast_connection_connect), it.name))
+                toast(getString(R.string.main_activity_toast_connection_connect).format(it.name))
                 if (selectedConnectionIndex.value == -1) {
                     selectedConnectionIndex.value = 0
                 }
@@ -263,7 +263,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 if (selectedConnectionIndex.value ?: -1 == (connectionList.value?.size ?: 0) - 1) {
                     selectedConnectionIndex.value = (selectedConnectionIndex.value ?: 0) - 1
                 }
-                toast(String.format(getString(R.string.main_activity_toast_connection_disconnect), it.name))
+                toast(getString(R.string.main_activity_toast_connection_disconnect).format(it.name))
                 connectionList.value?.remove(it)
             }
         }
