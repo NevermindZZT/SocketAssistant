@@ -84,7 +84,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         serialPortList.clear()
         serialPortList.addAll(SerialPortFinder().deviceNameList)
         for (device in usbSerialDrivers) {
-            serialPortList.add(device.device.deviceName)
+            serialPortList.add(String.format("%s(%s)", device.device.productName, device.device.deviceName))
         }
     }
 
@@ -187,7 +187,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                                 }
                             }
                             for (driver in usbSerialDrivers) {
-                                if (portName == driver.device.deviceName) {
+                                if (getUsbSerialPort(portName) == driver.device.deviceName) {
                                     connection = UsbSerialConnection(
                                         getContext(),
                                         driver,
@@ -312,3 +312,15 @@ private fun parserParity(parity: String?) = when (parity) {
     else -> 0
 }
 
+/**
+ * 获取USB串口端口名
+ * @param data String 数据
+ * @return String 端口名
+ */
+private fun getUsbSerialPort(data: String): String? {
+    val clips = data.split(Regex("[()]"))
+    clips.forEach {
+        Log.d("MainViewModel", "clip: $it")
+    }
+    return if (clips.size > 2) clips[clips.size - 2] else null
+}

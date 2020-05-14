@@ -71,7 +71,7 @@ class UsbSerialConnection constructor(private val context: Context,
     }
 
     init {
-        name = "usb serial: ${driver.device.deviceName}"
+        name = "usb serial: ${driver.device.productName}(${driver.device.deviceName})"
     }
 
     override fun send(connection: AbstractConnection, bytes: ByteArray?) {
