@@ -1,8 +1,6 @@
 package com.letter.socketassistant.activity
 
 import android.content.Context
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -45,7 +43,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @author Letter(nevermindzzt@gmail.com)
  * @since 1.0.0
  */
-class MainActivity : AppCompatActivity(), Presenter,
+class MainActivity : BaseActivity(), Presenter,
     NavigationView.OnNavigationItemSelectedListener,
     View.OnFocusChangeListener {
 
@@ -67,10 +65,6 @@ class MainActivity : AppCompatActivity(), Presenter,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
 
         /* 绑定视图 */
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)

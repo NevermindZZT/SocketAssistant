@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/AppTheme"
+        app:popupTheme="@style/AppTheme"
         app:title="@string/setting_activity_title"/>
 
     </com.google.android.material.appbar.AppBarLayout>

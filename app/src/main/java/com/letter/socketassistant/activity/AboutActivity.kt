@@ -2,11 +2,8 @@ package com.letter.socketassistant.activity
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import com.letter.socketassistant.BuildConfig
 import com.letter.socketassistant.R
 import com.letter.socketassistant.utils.startActivity
@@ -18,15 +15,12 @@ import kotlinx.android.synthetic.main.activity_about.*
  * @author Letter(nevermindzzt@gmail.com)
  * @since 1.0.0
  */
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
         setSupportActionBar(toolbar)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

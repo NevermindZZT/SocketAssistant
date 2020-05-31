@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1A1A1A</color>
+    <color name="colorPrimaryDark">#1A1A1A</color>
+    <color name="colorAccent">#5C6BC0</color>
+    <color name="colorBackground">#1A1A1A</color>
+    <color name="textColorPrimary">#FAFAFA</color>
+    <color name="textColorHint">#888888</color>
+    <color name="inputBackground">#202020</color>
+
+    <color name="colorLeftMessageBackground">#2A2A2A</color>
+    <color name="colorRightMessageBackground">#01998c</color>
+
+    <color name="colorSplitLine">#444444</color>
+
+    <color name="colorRipple">#50FFFFFF</color>
+</resources>

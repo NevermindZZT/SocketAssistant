@@ -2,11 +2,8 @@ package com.letter.socketassistant.activity
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.letter.socketassistant.LetterApplication
@@ -26,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_open_source.*
  * @author Letter(NevermindZZT@gmail.com)
  * @since 1.0.2
  */
-class OpenSourceActivity : AppCompatActivity(), ItemPresenter<OpenSourceDao> {
+class OpenSourceActivity : BaseActivity(), ItemPresenter<OpenSourceDao> {
 
     private val model by lazy {
         ViewModelProvider
@@ -42,10 +39,6 @@ class OpenSourceActivity : AppCompatActivity(), ItemPresenter<OpenSourceDao> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_open_source)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
 
         /* 设置ActionBar */
         setSupportActionBar(toolbar)

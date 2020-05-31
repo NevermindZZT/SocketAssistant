@@ -1,9 +1,6 @@
 package com.letter.socketassistant.activity
 
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -27,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_esp_touch.*
  * @author Letter(nevermindzzt@gmail.com)lk;
  * @since 1.0.0
  */
-class EspTouchActivity : AppCompatActivity(), Presenter {
+class EspTouchActivity : BaseActivity(), Presenter {
 
     companion object {
         private const val TAG = "EspTouchActivity"
@@ -58,10 +55,6 @@ class EspTouchActivity : AppCompatActivity(), Presenter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
 
         /* 绑定视图 */
         binding = DataBindingUtil.setContentView(this, R.layout.activity_esp_touch)

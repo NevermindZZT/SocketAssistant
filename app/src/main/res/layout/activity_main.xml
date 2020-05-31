@@ -35,9 +35,9 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
                     android:gravity="center"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
+                    android:theme="@style/AppTheme"
                     app:contentInsetStart="0dp"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:popupTheme="@style/AppTheme"
                     app:title="@{vm.title}"
                     tools:menu="@menu/menu_main_toolbar"
                     tools:title="SocketAssistant">
