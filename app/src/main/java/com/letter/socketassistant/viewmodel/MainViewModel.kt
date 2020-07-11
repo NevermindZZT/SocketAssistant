@@ -1,7 +1,9 @@
 package com.letter.socketassistant.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.core.content.edit
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +22,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.nio.charset.Charset
+
+private const val CONNECT_PARAM_SP = "connection"
+private const val SP_REMOTE_IP = "remote_ip"
+private const val SP_REMOTE_PORT = "remote_port"
+private const val SP_LOCAL_PORT = "local_port"
 
 /**
  * Main view model
@@ -49,7 +56,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val localIp = MutableLiveData("")
     val inputText  = MutableLiveData("")
     val messageList = ObservableArrayList<MessageDao>()
-    val connectionParamDao  = MutableLiveData(ConnectionParamDao())
+    val connectionParamDao by lazy {
+        val connectionParamDao = ConnectionParamDao()
+        val sp = application.getSharedPreferences(CONNECT_PARAM_SP, Context.MODE_PRIVATE)
+        connectionParamDao.netConnectionParam.apply {
+            remoteIp = sp.getString(SP_REMOTE_IP, null)
+            remotePort = sp.getString(SP_REMOTE_PORT, null)
+            localPort = sp.getString(SP_LOCAL_PORT, null)
+        }
+        MutableLiveData(connectionParamDao)
+    }
     private val connectionList by lazy {
         MutableLiveData<MutableList<AbstractConnection>>(mutableListOf())
     }
@@ -148,6 +164,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG, "param: ${connectionParamDao.value?.serialConnectionParam}")
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                val sp = getContext().getSharedPreferences(CONNECT_PARAM_SP, Context.MODE_PRIVATE)
+                sp.edit(commit = true) {
+                    putString(SP_REMOTE_IP, connectionParamDao.value?.netConnectionParam?.remoteIp)
+                    putString(SP_REMOTE_PORT, connectionParamDao.value?.netConnectionParam?.remotePort)
+                    putString(SP_LOCAL_PORT, connectionParamDao.value?.netConnectionParam?.localPort)
+                }
                 var connection: AbstractConnection ?= null
                 when (connectionParamDao.value?.type) {
                     ConnectionParamDao.Type.TCP_SERVER -> {

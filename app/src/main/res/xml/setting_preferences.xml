@@ -7,4 +7,11 @@
         android:summary="@string/setting_max_package_length_summary"
         android:defaultValue="1024"
         android:inputType="number"/>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/theme_mode_entries"
+        android:entryValues="@array/theme_mode_values"
+        android:key="theme_mode"
+        android:title="@string/setting_theme_mode_title" />
 </PreferenceScreen>

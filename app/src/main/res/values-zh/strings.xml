@@ -60,4 +60,5 @@
 
     <string name="setting_max_package_length_title">最大包长</string>
     <string name="setting_max_package_length_summary">接收数据时，最大的包长度</string>
+    <string name="setting_theme_mode_title">主题模式</string>
 </resources>

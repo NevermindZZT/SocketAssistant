@@ -1,6 +1,8 @@
 package com.letter.socketassistant
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.PreferenceManager
 
 /**
  * Application
@@ -26,6 +28,11 @@ class LetterApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        AppCompatDelegate.setDefaultNightMode(
+            PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("theme_mode", "-1")?.toInt() ?: -1
+        )
     }
 
 }

@@ -60,5 +60,6 @@
 
     <string name="setting_max_package_length_title">Max Package Length</string>
     <string name="setting_max_package_length_summary">The Max Length of Package When Receive</string>
+    <string name="setting_theme_mode_title">Theme Mode</string>
 
 </resources>
