@@ -162,15 +162,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun connect() {
         Log.d(TAG, "param: ${connectionParamDao.value?.serialConnectionParam}")
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val sp = getContext().getSharedPreferences(CONNECT_PARAM_SP, Context.MODE_PRIVATE)
-                sp.edit(commit = true) {
-                    putString(SP_REMOTE_IP, connectionParamDao.value?.netConnectionParam?.remoteIp)
-                    putString(SP_REMOTE_PORT, connectionParamDao.value?.netConnectionParam?.remotePort)
-                    putString(SP_LOCAL_PORT, connectionParamDao.value?.netConnectionParam?.localPort)
-                }
-                var connection: AbstractConnection ?= null
+        viewModelScope.launch(Dispatchers.IO) {
+            val sp = getContext().getSharedPreferences(CONNECT_PARAM_SP, Context.MODE_PRIVATE)
+            sp.edit(commit = true) {
+                putString(SP_REMOTE_IP, connectionParamDao.value?.netConnectionParam?.remoteIp)
+                putString(SP_REMOTE_PORT, connectionParamDao.value?.netConnectionParam?.remotePort)
+                putString(SP_LOCAL_PORT, connectionParamDao.value?.netConnectionParam?.localPort)
+            }
+            var connection: AbstractConnection ?= null
+            try {
                 when (connectionParamDao.value?.type) {
                     ConnectionParamDao.Type.TCP_SERVER -> {
                         connection = TcpServerConnection(
@@ -225,12 +225,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
                 }
-                connection?.apply {
-                    onReceivedListener = onConnectionPacketReceived
-                    onConnectedListener = onConnectionConnected
-                    onDisConnectedListener = onConnectionDisconnected
-                    connect()
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    toast(R.string.main_view_model_conect_fail)
                 }
+                return@launch
+            }
+            connection?.apply {
+                onReceivedListener = onConnectionPacketReceived
+                onConnectedListener = onConnectionConnected
+                onDisConnectedListener = onConnectionDisconnected
+                connect()
             }
         }
     }
